@@ -282,7 +282,12 @@ commitToGitlab: function(projId, branchName, objects, token,branchId,firstReq,pa
         );
       }
     });
-    module.exports.sendFiles(projId, sendBody, tok,uniqueArray,branchName,branchId,pat,patuse); //////////////cal method sendfiles
+    if(firstReq.commitType === 'branch'){
+      module.exports.sendFiles(projId, sendBody, tok,uniqueArray,branchName,branchId,pat,patuse); //////////////cal method sendfiles
+    }else if(firstReq.commitType === 'repo'){
+      module.exports.sendFiles(projId, sendBody, tok,uniqueArray,'master',branchId,pat,patuse); //////////////cal method sendfiles
+    }
+    
   
   },
   
