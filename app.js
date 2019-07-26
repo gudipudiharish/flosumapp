@@ -1392,7 +1392,8 @@ app.post('/commit', function(req, res) {
 	// }
 
 	if (req.body.mode === 'update') {
-		console.log('update------------------------------------------------------------------------');
+    console.log('update------------------------------------------------------------------------');
+    console.log('req.body.data.branch.Id',req.body.data.repo.Id);
 		console.log('branchMap', branchMap);
 
 		if (newCommit.firstReq.commitType === 'branch') {
