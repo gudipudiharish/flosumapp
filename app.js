@@ -1388,7 +1388,7 @@ app.post('/showLength', function(req, res) {
 
 app.post('/commit', function(req, res) {
   console.log('synccc', synccc);
-  console.log('req',req);
+
 	// if(req.body.sync != undefined){
 	// }
 
@@ -1396,7 +1396,7 @@ app.post('/commit', function(req, res) {
     console.log('update------------------------------------------------------------------------');
     //console.log('req.body.data.branch.Id',req.body.data.repo.Id);
 		//console.log('branchMap', branchMap);
-
+    console.log('req',req.body);
 		if (branchMap.get(req.body.data.repo.Id).firstReq.commitType === 'branch') {
 			if (branchMap.has(req.body.data.branch.Id)) {
 				var components = req.body.components;
