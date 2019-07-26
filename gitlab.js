@@ -318,7 +318,11 @@ commitToGitlab: function(projId, branchName, objects, token,branchId,firstReq,pa
           synccc = false;
           module.exports.fileHistoryGitLab(uniqueArray,tok,branchName,projId,branchId);
   console.log('*****PUSHED*****');
+      }else{
+        console.log('ELSE 200');
       }
+    }else{
+      console.log('ELSE 4');
     }
   }
     var parsed = JSON.stringify(sendBody);
