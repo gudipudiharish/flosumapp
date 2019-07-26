@@ -299,11 +299,14 @@ commitToGitlab: function(projId, branchName, objects, token,branchId,firstReq,pa
       url = 'https://gitlab.com/api/v4/projects/' + projId + '/repository/commits';
       xmlHttp.open("POST", url, true);
       xmlHttp.setRequestHeader('PRIVATE-TOKEN', pat);
+      console.log('1');
     }else{
+      console.log('2');
       url = 'https://gitlab.com/api/v4/projects/' + projId + '/repository/commits?access_token=' + tok;
       xmlHttp.open("POST", url, true);
+      console.log('3');
     }
-    
+    console.log('4');
     
     xmlHttp.setRequestHeader('Content-Type', 'application/json');
     xmlHttp.responseType = 'json';
