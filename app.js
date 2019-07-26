@@ -1141,7 +1141,10 @@ app.post('/commit', function (req, res) {
     }   
   }else{
     console.log('FINISH------------------------------------------------------------------------------------------------------------------------------------------------');
-    var temp = branchMap.get(req.body.branchId).data.branch.Flosum__Repository__r.Name;
+
+    if(newCommit.firstReq.commitType === 'branch'){
+
+      var temp = branchMap.get(req.body.branchId).data.branch.Flosum__Repository__r.Name;
     var tempOut;
     tempOut = temp.replace(/[^a-zA-Z0-9]/g, '-');
     var arr = [];
@@ -1157,7 +1160,7 @@ app.post('/commit', function (req, res) {
         }
       }
     });
-   // branchMap.get(req.body.branchId).data.branch.Flosum__Repository__r.Name = repository;
+    // branchMap.get(req.body.branchId).data.branch.Flosum__Repository__r.Name = repository;
     console.log('branchMap.get(req.body.branchId).data.branch.Flosum__Repository__r.Name',branchMap.get(req.body.branchId).data.branch.Flosum__Repository__r.Name);
     setTimeout(function(){
       if(branchMap.get(req.body.branchId).sync === 'GitHub'){
@@ -1181,6 +1184,12 @@ app.post('/commit', function (req, res) {
         },10000);  
       }
     },5000);
+
+    }else if(newCommit.firstReq.commitType === 'repo'){
+        console.log('REPO REPO REPO');
+    }
+
+   
   }
 
 });
