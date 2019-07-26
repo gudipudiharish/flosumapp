@@ -1556,7 +1556,58 @@ app.post('/commit', function(req, res) {
 			}, 5000);
 		}
 		else if (branchMap.get(req.body.branchId).firstReq.commitType === 'repo') {
-			console.log('REPO REPO REPO');
+      console.log('REPO REPO REPO');
+      
+      var temp = branchMap.get(req.body.branchId).data.repo.Name;
+			var tempOut;
+			tempOut = temp.replace(/[^a-zA-Z0-9]/g, '-');
+			var arr = [];
+			arr = tempOut.split('');
+			var repository = '';
+			arr.forEach(function(element, index) {
+				if (arr.length - 1 == index) {
+					repository += arr[index];
+				}
+				else {
+					if (arr[index] == '-' && arr[index + 1] == '-') {
+					}
+					else {
+						repository += arr[index];
+					}
+				}
+			});
+			branchMap.get(req.body.branchId).data.repo.Name = repository;
+			console.log(
+				'branchMap.get(req.body.branchId).data.branch.Flosum__Repository__r.Name',
+				branchMap.get(req.body.branchId).data.repo.Name
+			);
+			setTimeout(function() {
+				if (branchMap.get(req.body.branchId).sync === 'GitHub') {
+					git.gitCommit(req, branchMap.get(req.body.branchId), branchMap.get(req.body.branchId).firstReq);
+					branchMap.delete(req.body.branchId);
+				}
+				else if (branchMap.get(req.body.branchId).sync === 'GitLab') {
+					setTimeout(function() {
+						gitlab.GitLabCommit(
+							req,
+							branchMap.get(req.body.branchId),
+							branchMap.get(req.body.branchId).firstReq
+						);
+						branchMap.delete(req.body.branchId);
+					}, 10000);
+				}
+				else if (branchMap.get(req.body.branchId).sync === 'BitBucket') {
+					setTimeout(function() {
+						bitbucket.bitbucketPrepareCommit(
+							req,
+							branchMap.get(req.body.branchId),
+							branchMap.get(req.body.branchId).firstReq
+						);
+						branchMap.delete(req.body.branchId);
+					}, 10000);
+				}
+			}, 5000);
+
 		}
 	}
 });
