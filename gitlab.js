@@ -165,7 +165,7 @@ commitToGitlab: function(projId, branchName, objects, token,branchId,firstReq,pa
     console.log('In commitToGtilab');
     var xmlHttp = new XMLHttpRequest();
     var url;
-    
+    console.log('projId',projId);
     if(patuse){
       url = 'https://gitlab.com/api/v4/projects/' + projId + '/repository/branches';
       xmlHttp.open("GET", url, true);
@@ -174,6 +174,8 @@ commitToGitlab: function(projId, branchName, objects, token,branchId,firstReq,pa
      url = 'https://gitlab.com/api/v4/projects/' + projId + '/repository/branches?access_token=' + token;
      xmlHttp.open("GET", url, true);
     }
+
+    console.log('projId2',projId);
       
     
       
@@ -181,6 +183,7 @@ commitToGitlab: function(projId, branchName, objects, token,branchId,firstReq,pa
       xmlHttp.onload = function () {
         if (xmlHttp.readyState === 4) {
           if (xmlHttp.status === 200) {
+            console.log('100',projId);
             var tempArr = JSON.parse(xmlHttp.responseText);
             var tmp = [];
             tempArr.forEach(function (element) {
