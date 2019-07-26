@@ -92,35 +92,7 @@ String.prototype.replaceAll = function(search, replacement) {
 
 app.get('/', function (req, res) {
   
-
-const Email = require('email-templates');
- 
-const email = new Email({
-  message: {
-    from: 'odemskyi@peeklogic.com',
-    attachments: [
-      {
-        filename: 'text1.txt',
-        content: 'hello world!'
-      }
-    ]
-  }
-});
- 
-email
-  .send({
-    template: 'mars',
-    message: {
-      to: 'demaoleg78@gmail.com'
-    },
-    locals: {
-      name: 'Elon'
-    }
-  })
-  .then(console.log)
-  .catch(console.error);
-
-  res.send('done');
+  res.send('refresh heroku');
 })
 
 app.post('/synccc', function (req, res) { 
