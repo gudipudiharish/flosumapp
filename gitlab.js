@@ -320,6 +320,7 @@ commitToGitlab: function(projId, branchName, objects, token,branchId,firstReq,pa
   console.log('*****PUSHED*****');
       }else{
         console.log('ELSE 200');
+        console.log('xmlHttp.responseText',xmlHttp.responseText);
       }
     }else{
       console.log('ELSE 4');
