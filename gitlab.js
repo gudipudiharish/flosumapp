@@ -183,12 +183,14 @@ commitToGitlab: function(projId, branchName, objects, token,branchId,firstReq,pa
       xmlHttp.onload = function () {
         if (xmlHttp.readyState === 4) {
           if (xmlHttp.status === 200) {
-            console.log('100',projId);
+            console.log('200',projId);
+            console.log('xmlHttp.responseText',xmlHttp.responseText);
             var tempArr = JSON.parse(xmlHttp.responseText);
             var tmp = [];
             tempArr.forEach(function (element) {
               tmp.push(element.name);
             });
+            console.log('tempArr',tempArr);
           var bool = false;
             for(var i = 0; i < tempArr.length; i++) {
               if (tempArr[i].name == branchName) {
