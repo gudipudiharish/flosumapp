@@ -1387,7 +1387,8 @@ app.post('/showLength', function(req, res) {
 });
 
 app.post('/commit', function(req, res) {
-	console.log('synccc', synccc);
+  console.log('synccc', synccc);
+  console.log('req',req);
 	// if(req.body.sync != undefined){
 	// }
 
