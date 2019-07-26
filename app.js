@@ -1499,8 +1499,8 @@ app.post('/commit', function(req, res) {
 		console.log(
 			'FINISH------------------------------------------------------------------------------------------------------------------------------------------------'
 		);
-
-		if (newCommit.firstReq.commitType === 'branch') {
+      console.log('req.body.branchId',req.body.branchId);
+		if (branchMap.get(req.body.branchId).firstReq.commitType === 'branch') {
 			var temp = branchMap.get(req.body.branchId).data.branch.Flosum__Repository__r.Name;
 			var tempOut;
 			tempOut = temp.replace(/[^a-zA-Z0-9]/g, '-');
@@ -1555,7 +1555,7 @@ app.post('/commit', function(req, res) {
 				}
 			}, 5000);
 		}
-		else if (newCommit.firstReq.commitType === 'repo') {
+		else if (branchMap.get(req.body.branchId).firstReq.commitType === 'repo') {
 			console.log('REPO REPO REPO');
 		}
 	}
