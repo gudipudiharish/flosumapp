@@ -1105,6 +1105,7 @@ app.post('/commit', function (req, res) {
       var newCommit = new Items();
     newCommit.sync = req.body.sync;
     newCommit.firstReq = req.body;
+    console.log('this is first req', newCommit.firstReq);
     branchMap.set(req.body.branchId,newCommit);
     console.log('callService------------------------------------------------------------------------');
     conn.login(process.env.username, process.env.password, function(err, userInfo) {
