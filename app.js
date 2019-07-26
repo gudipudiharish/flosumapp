@@ -1079,6 +1079,7 @@ app.post('/commit', function (req, res) {
 
   if(req.body.mode === 'update'){
     console.log('update------------------------------------------------------------------------');    
+    console.log('branchMap',branchMap);
     if(branchMap.has(req.body.data.branch.Id)){
           var components = req.body.components;
         var histories = req.body.histories;
