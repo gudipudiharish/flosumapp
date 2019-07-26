@@ -189,13 +189,14 @@ commitToGitlab: function(projId, branchName, objects, token,branchId,firstReq,pa
           var bool = false;
             for(var i = 0; i < tempArr.length; i++) {
               if (tempArr[i].name == branchName) {
+                console.log('bodyForUpdate');
                 module.exports.bodyForUpdate(projId, branchName, objects, token,branchId,firstReq,pat,patuse,labCommitMessage);
                 bool = true;
               }
             }
             
           } else if (xmlHttp.status === 400 || xmlHttp.status === 404) {
-            
+            console.log('ERROR');
           }
         }
       };
