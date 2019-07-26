@@ -1116,10 +1116,15 @@ app.post('/commit', function (req, res) {
       instanceUrl =  conn.instanceUrl; 
       console.log('instanceUrl',instanceUrl);
       console.log('accesTok',accesTok);
-      let branch = {
+      let branch2 = {
         branchId : req.body.branchId,
         commitType : req.body.commitType
       };
+
+      let branch = {
+        branchId : branch2
+      };
+
       forAll.httpCallSF(instanceUrl+'/services/apexrest/flosum_git/branches','POST',branch,accesTok).then( ress => {
         console.log('r',ress);
       } ).catch(err => {
