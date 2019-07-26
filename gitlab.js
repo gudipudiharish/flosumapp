@@ -50,9 +50,15 @@ module.exports = {
           console.log("User ID: " + userInfo.id);
           console.log("Org ID: " + userInfo.organizationId);
           branchId = firstReq.branchId;
-          let branch = {
-            branchId : branchId
+          let branch2 = {
+            branchId: req.body.branchId,
+            commitType: firstReq.commitType
           };
+  
+          let branch = {
+            branchId: JSON.stringify(branch2)
+          };
+  
           console.log('branchNAME---->  '+req.body);
           forAll.httpCallSF(instanceUrl+'/services/apexrest/flosum_git/gitLab','POST',branch,accesTok).then(resp => {
       console.log('****resp ----> '+resp);
