@@ -1396,7 +1396,7 @@ app.post('/commit', function(req, res) {
     console.log('req.body.data.branch.Id',req.body.data.repo.Id);
 		console.log('branchMap', branchMap);
 
-		if (newCommit.firstReq.commitType === 'branch') {
+		if (branchMap.get(req.body.data.repo.Id).firstReq.commitType === 'branch') {
 			if (branchMap.has(req.body.data.branch.Id)) {
 				var components = req.body.components;
 				var histories = req.body.histories;
@@ -1421,7 +1421,7 @@ app.post('/commit', function(req, res) {
 				console.log('NOT FOUND IN MAP');
 			}
 		}
-		else if (newCommit.firstReq.commitType === 'repo') {
+		else if (branchMap.get(req.body.data.repo.Id).firstReq.commitType === 'repo') {
 
       if (branchMap.has(req.body.data.repo.Id)) {
 				var components = req.body.components;
