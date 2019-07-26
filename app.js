@@ -1396,8 +1396,8 @@ app.post('/commit', function(req, res) {
     console.log('update------------------------------------------------------------------------');
     //console.log('req.body.data.branch.Id',req.body.data.repo.Id);
 		//console.log('branchMap', branchMap);
-    console.log('req',req.body);
-		if (branchMap.get(req.body.data.repo.Id).firstReq.commitType === 'branch') {
+    console.log('req',req.body.commitType);
+		if (req.body.commitType === 'branch') {
 			if (branchMap.has(req.body.data.branch.Id)) {
 				var components = req.body.components;
 				var histories = req.body.histories;
@@ -1422,7 +1422,7 @@ app.post('/commit', function(req, res) {
 				console.log('NOT FOUND IN MAP');
 			}
 		}
-		else if (branchMap.get(req.body.data.repo.Id).firstReq.commitType === 'repo') {
+		else if (req.body.commitType === 'repo') {
 
       if (branchMap.has(req.body.data.repo.Id)) {
 				var components = req.body.components;
@@ -1500,8 +1500,7 @@ app.post('/commit', function(req, res) {
 		console.log(
 			'FINISH------------------------------------------------------------------------------------------------------------------------------------------------'
 		);
-      console.log('req.body.branchId',req.body.branchId);
-		if (branchMap.get(req.body.branchId).firstReq.commitType === 'branch') {
+		if (req.body.commitType === 'branch') {
 			var temp = branchMap.get(req.body.branchId).data.branch.Flosum__Repository__r.Name;
 			var tempOut;
 			tempOut = temp.replace(/[^a-zA-Z0-9]/g, '-');
@@ -1556,7 +1555,7 @@ app.post('/commit', function(req, res) {
 				}
 			}, 5000);
 		}
-		else if (branchMap.get(req.body.branchId).firstReq.commitType === 'repo') {
+		else if (req.body.commitType === 'repo') {
       console.log('REPO REPO REPO');
       
       var temp = branchMap.get(req.body.branchId).data.repo.Name;
