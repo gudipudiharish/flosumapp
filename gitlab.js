@@ -404,7 +404,8 @@ commitToGitlab: function(projId, branchName, objects, token,branchId,firstReq,pa
   },
 
   checkComponentsIfExist:function(projId, branchName, objects, tok,branchId,firstReq,pat,patuse, labCommitMessage){
-
+    var pathes = [];
+    var responce;
     console.log('In checkComponentsIfExist');
     var xmlHttp = new XMLHttpRequest();
     var url;
@@ -428,8 +429,12 @@ commitToGitlab: function(projId, branchName, objects, token,branchId,firstReq,pa
      
        
         if (xmlHttp.status === 200 || xmlHttp.status === 201) {
-
-          console.log('xmlHttp.responseText',xmlHttp.responseText);
+          responce = JSON.parse(xmlHttp.responseText);
+          console.log('xmlHttp.responseText',responce);
+          responce.forEach(element => {
+            console.log('element.path', element.path);
+            pathes.push(element.path);
+          });
 
 
          // synccc = false;
