@@ -439,7 +439,7 @@ commitToGitlab: function(projId, branchName, objects, token,branchId,firstReq,pa
       xmlHttp.open("GET", url, true);
       
     }
-  //  console.log('4');
+    console.log('4');
     
     xmlHttp.setRequestHeader('Content-Type', 'application/json');
     xmlHttp.responseType = 'json';
