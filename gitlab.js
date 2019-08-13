@@ -262,6 +262,7 @@ commitToGitlab: function(projId, branchName, objects, token,branchId,firstReq,pa
     }
     var uniqueArray = removeDuplicates(objects, "key");
     uniqueArray.forEach(element => {
+      console.log(element.key);
       if (element.type === 'CustomObject') {
         sendBody.actions.push(
           {
@@ -400,6 +401,43 @@ commitToGitlab: function(projId, branchName, objects, token,branchId,firstReq,pa
         });
       }
     });
+  },
+
+  checkComponentsIfExist:function(projId, branchName, objects, tok,branchId,firstReq,pat,patuse, labCommitMessage){
+
+    console.log('In checkComponentsIfExist');
+    var xmlHttp = new XMLHttpRequest();
+    var url;
+    if(patuse){
+      url = 'https://gitlab.com/api/v4/projects/' + projId + '/repository/tree?ref='+branchName+'&recursive=true';
+      xmlHttp.open("GET", url, true);
+      xmlHttp.setRequestHeader('PRIVATE-TOKEN', pat);
+      console.log('PRIVATE-TOKEN');
+    }else{
+      console.log('access_token');
+      url = 'https://gitlab.com/api/v4/projects/' + projId + '/repository/tree?access_token=' + tok+'&ref='+branchName+'&recursive=true';
+      xmlHttp.open("GET", url, true);
+      
+    }
+    console.log('4');
+    
+    xmlHttp.setRequestHeader('Content-Type', 'application/json');
+    xmlHttp.responseType = 'json';
+    xmlHttp.onload = function () {
+  
+     
+       
+        if (xmlHttp.status === 200 || xmlHttp.status === 201) {
+         // synccc = false;
+        //  module.exports.fileHistoryGitLab(uniqueArray,tok,branchName,projId,branchId);
+  //console.log('*****PUSHED*****');
+
+
+      }else{
+        console.log('xmlHttp.responseText',xmlHttp.responseText);
+      }
+  }
+    xmlHttp.send();
   }
   
         
