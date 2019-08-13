@@ -429,13 +429,13 @@ commitToGitlab: function(projId, branchName, objects, token,branchId,firstReq,pa
     var xmlHttp = new XMLHttpRequest();
     var url;
     if(patuse){
-      url = 'https://gitlab.com/api/v4/projects/' + projId + '/repository/tree?ref='+branchName+'&recursive=true';
+      url = 'https://gitlab.com/api/v4/projects/' + projId + '/repository/tree?ref='+branchName+'&recursive=true&per_page=1000';
       xmlHttp.open("GET", url, true);
       xmlHttp.setRequestHeader('PRIVATE-TOKEN', pat);
       console.log('PRIVATE-TOKEN');
     }else{
       console.log('access_token');
-      url = 'https://gitlab.com/api/v4/projects/' + projId + '/repository/tree?access_token=' + tok+'&ref='+branchName+'&recursive=true';
+      url = 'https://gitlab.com/api/v4/projects/' + projId + '/repository/tree?access_token=' + tok+'&ref='+branchName+'&recursive=true&per_page=1000';
       xmlHttp.open("GET", url, true);
       
     }
