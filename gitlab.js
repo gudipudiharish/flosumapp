@@ -437,7 +437,7 @@ commitToGitlab: function(projId, branchName, objects, token,branchId,firstReq,pa
       xmlHttp.open("GET", url, true);
       
     }
-    console.log('4');
+  //  console.log('4');
     
     xmlHttp.setRequestHeader('Content-Type', 'application/json');
     xmlHttp.responseType = 'json';
@@ -447,15 +447,15 @@ commitToGitlab: function(projId, branchName, objects, token,branchId,firstReq,pa
        
         if (xmlHttp.status === 200 || xmlHttp.status === 201) {
           responce = JSON.parse(xmlHttp.responseText);
-          console.log('xmlHttp.responseText',responce);
+         // console.log('xmlHttp.responseText',responce);
           responce.forEach(element => {
             if(element.type =='blob'){
-            console.log('element.path', element.path);
+          //  console.log('element.path', element.path);
             pathes.push(element.path);
             }
           });
           pathes.shift(); 
-          console.log('pathes',pathes);
+       //   console.log('pathes',pathes);
          // synccc = false;
         //  module.exports.fileHistoryGitLab(uniqueArray,tok,branchName,projId,branchId);
   //console.log('*****PUSHED*****');
