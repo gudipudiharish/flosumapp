@@ -264,11 +264,14 @@ commitToGitlab: function(projId, branchName, objects, token,branchId,firstReq,pa
 
     var uniqueArray = removeDuplicates(objects, "key");
     uniqueArray.forEach(element => {
+      console.log('pathes.length',pathes.length);
       if(pathes.length ==0){
         actions = 'create';
       }else{
         if(pathes.includes(element.value)){
+          
           actions = 'update';
+          console.log('actions', actions);
         }else{
           actions = 'create';
         }
@@ -455,7 +458,7 @@ commitToGitlab: function(projId, branchName, objects, token,branchId,firstReq,pa
          // synccc = false;
         //  module.exports.fileHistoryGitLab(uniqueArray,tok,branchName,projId,branchId);
   //console.log('*****PUSHED*****');
-        bodyForUpdate(projId, branchName, objects, tok,branchId,firstReq,pat,patuse, labCommitMessage, pathes);
+  module.exports.bodyForUpdate(projId, branchName, objects, tok,branchId,firstReq,pat,patuse, labCommitMessage, pathes);
 
       }else{
         console.log('xmlHttp.responseText',xmlHttp.responseText);
