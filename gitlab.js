@@ -219,7 +219,7 @@ commitToGitlab: function(projId, branchName, objects, token,branchId,firstReq,pa
     
   },
   
-  bodyForUpdate: function(projId, branchName, objects, tok,branchId,firstReq,pat,patuse, labCommitMessage) {
+  bodyForUpdate: function(projId, branchName, objects, tok,branchId,firstReq,pat,patuse, labCommitMessage, pathes) {
     console.log('In bodyForUpdate');
     var today = new Date();
     var message; 
@@ -260,13 +260,25 @@ commitToGitlab: function(projId, branchName, objects, token,branchId,firstReq,pa
       }
       return newArray;
     }
+    var actions='';
+
     var uniqueArray = removeDuplicates(objects, "key");
     uniqueArray.forEach(element => {
-      console.log(element.key);
+      if(pathes.length ==0){
+        actions = 'create';
+      }else{
+        if(pathes.includes(element.value)){
+          actions = 'update';
+        }else{
+          actions = 'create';
+        }
+      }
+      //console.log(element.key);
+ 
       if (element.type === 'CustomObject') {
         sendBody.actions.push(
           {
-            action: "create",
+            action: actions, //create
             file_path: element.key,
             content: element.value,
             encoding: 'base64'
@@ -275,13 +287,14 @@ commitToGitlab: function(projId, branchName, objects, token,branchId,firstReq,pa
       } else {
         sendBody.actions.push(
           {
-            action: "create",
+            action: actions, //create
             file_path: element.key,
             content: element.value,
             encoding: 'base64'
           }
         );
       }
+
     });
     if(firstReq.commitType === 'branch'){
       module.exports.sendFiles(projId, sendBody, tok,uniqueArray,branchName,branchId,pat,patuse); //////////////cal method sendfiles
@@ -437,13 +450,13 @@ commitToGitlab: function(projId, branchName, objects, token,branchId,firstReq,pa
             pathes.push(element.path);
             }
           });
-
-
+          pathes.shift(); 
+          console.log('pathes',pathes);
          // synccc = false;
         //  module.exports.fileHistoryGitLab(uniqueArray,tok,branchName,projId,branchId);
   //console.log('*****PUSHED*****');
-       // bodyForUpdate(projId, branchName, objects, tok,branchId,firstReq,pat,patuse, labCommitMessage);
-console.log('pathes',pathes);
+        bodyForUpdate(projId, branchName, objects, tok,branchId,firstReq,pat,patuse, labCommitMessage, pathes);
+
       }else{
         console.log('xmlHttp.responseText',xmlHttp.responseText);
       }
