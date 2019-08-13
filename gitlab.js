@@ -196,13 +196,13 @@ commitToGitlab: function(projId, branchName, objects, token,branchId,firstReq,pa
               if(firstReq.commitType === 'branch'){
                 if (tempArr[i].name == branchName) {
                   console.log('bodyForUpdate');
-                  module.exports.bodyForUpdate(projId, branchName, objects, token,branchId,firstReq,pat,patuse,labCommitMessage);
+                  module.exports.checkComponentsIfExist(projId, branchName, objects, token,branchId,firstReq,pat,patuse,labCommitMessage);
                   bool = true;
                 }
               }else if(firstReq.commitType === 'repo'){
                 if (tempArr[i].name == 'master') {
                   console.log('bodyForUpdate');
-                  module.exports.bodyForUpdate(projId, 'master', objects, token,branchId,firstReq,pat,patuse,labCommitMessage);
+                  module.exports.checkComponentsIfExist(projId, 'master', objects, token,branchId,firstReq,pat,patuse,labCommitMessage);
                   bool = true;
                 }
               }
@@ -428,10 +428,14 @@ commitToGitlab: function(projId, branchName, objects, token,branchId,firstReq,pa
      
        
         if (xmlHttp.status === 200 || xmlHttp.status === 201) {
+
+
+
+
          // synccc = false;
         //  module.exports.fileHistoryGitLab(uniqueArray,tok,branchName,projId,branchId);
   //console.log('*****PUSHED*****');
-
+       // bodyForUpdate(projId, branchName, objects, tok,branchId,firstReq,pat,patuse, labCommitMessage);
 
       }else{
         console.log('xmlHttp.responseText',xmlHttp.responseText);
