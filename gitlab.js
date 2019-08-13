@@ -432,8 +432,10 @@ commitToGitlab: function(projId, branchName, objects, token,branchId,firstReq,pa
           responce = JSON.parse(xmlHttp.responseText);
           console.log('xmlHttp.responseText',responce);
           responce.forEach(element => {
+            if(element.type =='blob'){
             console.log('element.path', element.path);
             pathes.push(element.path);
+            }
           });
 
 
@@ -441,7 +443,7 @@ commitToGitlab: function(projId, branchName, objects, token,branchId,firstReq,pa
         //  module.exports.fileHistoryGitLab(uniqueArray,tok,branchName,projId,branchId);
   //console.log('*****PUSHED*****');
        // bodyForUpdate(projId, branchName, objects, tok,branchId,firstReq,pat,patuse, labCommitMessage);
-
+console.log('pathes',pathes);
       }else{
         console.log('xmlHttp.responseText',xmlHttp.responseText);
       }
