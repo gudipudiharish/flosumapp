@@ -1593,6 +1593,7 @@ app.post('/commit', function(req, res) {
 							branchMap.get(req.body.branchId),
 							branchMap.get(req.body.branchId).firstReq
 						);
+						console.log('branchMap.get(req.body.branchId),',branchMap.get(req.body.branchId));
 						branchMap.delete(req.body.branchId);
 					}, 10000);
 				}
