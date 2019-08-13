@@ -268,7 +268,8 @@ commitToGitlab: function(projId, branchName, objects, token,branchId,firstReq,pa
       if(pathes.length ==0){
         actions = 'create';
       }else{
-        if(pathes.includes(element.value)){
+        console.log('element.key', element.key);
+        if(pathes.includes(element.key)){
           
           actions = 'update';
           console.log('actions', actions);
