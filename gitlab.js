@@ -270,7 +270,7 @@ commitToGitlab: function(projId, branchName, objects, token,branchId,firstReq,pa
       }else{
         console.log('element.key', element.key);
         console.log('pathes.includes => ',pathes.includes(element.key));
-        
+        console.log('pathes ',pathes);
         if(pathes.includes(element.key.toString())){
           
           actions = 'update';
@@ -453,7 +453,7 @@ commitToGitlab: function(projId, branchName, objects, token,branchId,firstReq,pa
           responce.forEach(element => {
             if(element.type =='blob'){
           //  console.log('element.path', element.path);
-            pathes.push(element.path);
+            pathes.push(element.path.toString());
             }
           });
           pathes.shift(); 
