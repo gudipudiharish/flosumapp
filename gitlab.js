@@ -429,7 +429,7 @@ commitToGitlab: function(projId, branchName, objects, token,branchId,firstReq,pa
        
         if (xmlHttp.status === 200 || xmlHttp.status === 201) {
 
-
+          console.log('xmlHttp.responseText',xmlHttp.responseText);
 
 
          // synccc = false;
