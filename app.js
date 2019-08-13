@@ -1579,7 +1579,7 @@ app.post('/commit', function(req, res) {
 			branchMap.get(req.body.branchId).data.repo.Name = repository;
 			console.log(
 				'branchMap.get(req.body.branchId).data.branch.Flosum__Repository__r.Name',
-				branchMap.get(req.body.branchId).data.repo.Name
+				branchMap.get(req.body.branchId)
 			);
 			setTimeout(function() {
 				if (branchMap.get(req.body.branchId).sync === 'GitHub') {
