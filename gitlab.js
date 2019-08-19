@@ -268,7 +268,7 @@ commitToGitlab: function(projId, branchName, objects, token,branchId,firstReq,pa
       if(pathes.length ==0){
         actions = 'create';
       }else{
-        console.log('element.key', element.key);
+      //  console.log('element.key', element.key);
         console.log('pathes.includes => ',pathes.includes(element.key));
         console.log('pathes ',pathes);
         if(pathes.includes(element.key.toString())){
@@ -336,7 +336,7 @@ commitToGitlab: function(projId, branchName, objects, token,branchId,firstReq,pa
        
         if (xmlHttp.status === 200 || xmlHttp.status === 201) {
           synccc = false;
-          module.exports.fileHistoryGitLab(uniqueArray,tok,branchName,projId,branchId);
+          module.exports.fileHistoryGitLab(uniqueArray,tok,branchName,projId,branchId,pat,patuse);
   console.log('*****PUSHED*****');
       }else{
         console.log('ELSE 200');
@@ -352,7 +352,7 @@ commitToGitlab: function(projId, branchName, objects, token,branchId,firstReq,pa
   },
   
   
-   fileHistoryGitLab:function(mapNameToBody,tok,branchName,projId,branchId){
+   fileHistoryGitLab:function(mapNameToBody,tok,branchName,projId,branchId,pat,patuse){
     //console.log('uniqueArray',mapNameToBody);
     console.log('tok',tok);
   var contents = [];
@@ -363,7 +363,12 @@ commitToGitlab: function(projId, branchName, objects, token,branchId,firstReq,pa
       path = path.replaceAll('.','%2E');
       //console.log('path',path);
       //httpGet('https://gitlab.com/api/v4/projects/'+ projId +'/repository/files/'+ path +'?ref='+branchName,tok);
-      contents.push(forAll.httpGet('https://gitlab.com/api/v4/projects/'+ projId +'/repository/files/'+ path +'?ref='+branchName,tok));
+      if(patuse){
+
+      }else{
+        contents.push(forAll.httpGet('https://gitlab.com/api/v4/projects/'+ projId +'/repository/files/'+ path +'?ref='+branchName,tok,pat,patuse));
+      }
+      
       if(index === mapNameToBody.length -1){
         Promise.all(contents).then( values => {
           

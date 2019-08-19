@@ -291,15 +291,20 @@ module.exports = {
             
           });
           },
-          httpGet: function(urlreq,authHeader) {
+          httpGet: function(urlreq,authHeader,pat,patuse) {
             //console.log('urlreq',urlreq);
             //console.log('authHeader',authHeader);
             return  new Promise(function(resolve, reject) {
                 let xmlHttp = new XMLHttpRequest();
                 let url = urlreq;
                 xmlHttp.open( "GET", url, true );
+                if(patuse){
+                  xmlHttp.setRequestHeader('PRIVATE-TOKEN', pat);
+                }else{
+                  xmlHttp.setRequestHeader('Authorization', authHeader);
+                }
                 xmlHttp.setRequestHeader('Content-Type', 'application/json');
-                xmlHttp.setRequestHeader('Authorization', authHeader);
+               
                 xmlHttp.responseType = 'json';
                 xmlHttp.onload = function() { 
                   //console.log('xmlHttp.status',xmlHttp.status);
