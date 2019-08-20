@@ -264,17 +264,17 @@ commitToGitlab: function(projId, branchName, objects, token,branchId,firstReq,pa
 
     var uniqueArray = removeDuplicates(objects, "key");
     uniqueArray.forEach(element => {
-      console.log('pathes.length',pathes.length);
+      // console.log('pathes.length',pathes.length);
       if(pathes.length ==0){
         actions = 'create';
       }else{
       //  console.log('element.key', element.key);
-        console.log('pathes.includes => ',pathes.includes(element.key));
-        console.log('pathes ',pathes);
+        // console.log('pathes.includes => ',pathes.includes(element.key));
+        // console.log('pathes ',pathes);
         if(pathes.includes(element.key.toString())){
           
           actions = 'update';
-          console.log('actions', actions);
+          // console.log('actions', actions);
         }else{
           actions = 'create';
         }
