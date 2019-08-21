@@ -384,11 +384,9 @@ if(firstReq.commitType === 'branch'){
       path = path.replaceAll('.','%2E');
       //console.log('path',path);
       //httpGet('https://gitlab.com/api/v4/projects/'+ projId +'/repository/files/'+ path +'?ref='+branchName,tok);
-      if(patuse){
-
-      }else{
+      
         contents.push(forAll.httpGet('https://gitlab.com/api/v4/projects/'+ projId +'/repository/files/'+ path +'?ref='+branchName,tok,pat,patuse));
-      }
+      
       
       if(index === mapNameToBody.length -1){
         console.log('INDEXXXXXXXXXXXXXXXXXXXXXXXXX');
