@@ -85,7 +85,7 @@ module.exports = {
       
               var components = re.components;
               var histories = re.histories;
-              console.log('re.data',re.data);
+              //console.log('re.data',re.data);
               var attachments = re.attachments;
       
               var componentsKeys = Object.keys(components);
@@ -293,7 +293,7 @@ if(firstReq.commitType === 'branch'){
         // console.log('pathes.includes => ',pathes.includes(element.key));
         // console.log('pathes ',pathes);
         if(pathes.includes(element.key.toString())){
-          
+          console.log('includes',element.key.toString());
           actions = 'update';
           // console.log('actions', actions);
         }else{
