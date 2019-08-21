@@ -627,7 +627,7 @@ app.post('/dataForUpdateGitLab', function(req, res) {
 												path +
 												'?ref=' +
 												branchName,
-											branchWithProjId.get(brId).token
+											branchWithProjId.get(brId).pat
 										)
 									);
 									if (index === records.length - 1) {
