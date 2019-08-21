@@ -374,8 +374,11 @@ if(firstReq.commitType === 'branch'){
   
   
    fileHistoryGitLab:function(mapNameToBody,tok,branchName,projId,branchId,pat,patuse){
+    
     //console.log('uniqueArray',mapNameToBody);
+    console.log('patuse',patuse);
     console.log('tok',tok);
+    console.log('pat',pat);
   var contents = [];
   mapNameToBody.forEach(function(obj,index,array){
       let path = obj.key;
@@ -389,7 +392,7 @@ if(firstReq.commitType === 'branch'){
       
       
       if(index === mapNameToBody.length -1){
-        console.log('INDEXXXXXXXXXXXXXXXXXXXXXXXXX');
+        console.log('INDEX');
         Promise.all(contents).then( values => {
           
           values.forEach(function(item,index,array){
