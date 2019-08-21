@@ -559,7 +559,7 @@ app.post('/dataForUpdateGitLab', function(req, res) {
 								commitType: 'branch'
 							};
 			
-							let branch = {
+							let branch222 = {
 								branchId: JSON.stringify(branch2)
 							};
 							
@@ -570,7 +570,7 @@ app.post('/dataForUpdateGitLab', function(req, res) {
 								.httpCallSF(
 									instanceUrl + '/services/apexrest/flosum_git/gitLab',
 									'POST',
-									branch,
+									branch222,
 									accesTok
 								)
 								.then((resp) => {
