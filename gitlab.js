@@ -456,6 +456,8 @@ if(firstReq.commitType === 'branch'){
     var pathes = [];
     var responce;
     console.log('In checkComponentsIfExist');
+    console.log('projId --> ',projId);
+    console.log('branchName -->', branchName);
     var xmlHttp = new XMLHttpRequest();
     var url;
     if(patuse){
