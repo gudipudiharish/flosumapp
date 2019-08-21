@@ -288,6 +288,7 @@ if(firstReq.commitType === 'branch'){
       if(pathes.length ==0){
         actions = 'create';
       }else{
+        console.log('actions------------------->      ', actions);
       //  console.log('element.key', element.key);
         // console.log('pathes.includes => ',pathes.includes(element.key));
         // console.log('pathes ',pathes);
@@ -478,7 +479,7 @@ if(firstReq.commitType === 'branch'){
          // console.log('xmlHttp.responseText',responce);
           responce.forEach(element => {
             if(element.type =='blob'){
-          //  console.log('element.path', element.path);
+            console.log('element.path', element.path);
             pathes.push(element.path.toString());
             }
           });
