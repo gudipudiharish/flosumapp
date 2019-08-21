@@ -577,11 +577,12 @@ app.post('/dataForUpdateGitLab', function(req, res) {
 									/*getCreds = parser.parse(resp);
               token = JSON.parse(getCreds).token;
               projId = JSON.parse(getCreds).projectId;
-              branchname = JSON.parse(getCreds).branchName;*/
+							branchname = JSON.parse(getCreds).branchName;*/
 									let proj = parser.parse(resp);
 									proj = JSON.parse(proj);
 									proj.branchId = branch;
 									branchWithProjId.set(branch, proj);
+									console.log('branchWithProjId',branchWithProjId);
 								});
 						});
 
@@ -617,6 +618,7 @@ app.post('/dataForUpdateGitLab', function(req, res) {
 									//console.log('path',path);
 									path = path.replaceAll('/', '%2F');
 									path = path.replaceAll('.', '%2E');
+									console.log('branchWithProjId.get(brId).projectId',branchWithProjId.get(brId).projectId);
 									contents.push(
 										forAll.httpGet(
 											'https://gitlab.com/api/v4/projects/' +
