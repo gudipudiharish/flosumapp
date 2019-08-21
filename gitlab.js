@@ -427,6 +427,7 @@ if(firstReq.commitType === 'branch'){
           var spitLength = 500;
           let iter = Math.ceil(namesWithBlobsLength / spitLength);
           console.log('saveResponce');
+          console.log('mapNameToBody', mapNameToBody);
           for(let i=0;i<iter;i++){
             console.log('saveResponce2');
             let req = {
