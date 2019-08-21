@@ -160,6 +160,7 @@ module.exports = {
       
       },      
 commitToGitlab: function(projId, branchName, objects, token,branchId,firstReq,pat,patuse, labCommitMessage) {
+  /*
   console.log(pat, patuse);
    // console.log('mapNameToBody',objects);
     console.log('In commitToGtilab');
@@ -167,18 +168,18 @@ commitToGitlab: function(projId, branchName, objects, token,branchId,firstReq,pa
     var url;
     console.log('projId',projId);
     if(patuse){
-      url = 'https://gitlab.com/api/v4/projects/' + projId + '/repository/branches';
+      url = 'https://gitlab.com/api/v4/projects/' + projId + '/repository/branches?per_page=100';
       xmlHttp.open("GET", url, true);
       xmlHttp.setRequestHeader('PRIVATE-TOKEN', pat);
     }else{
-     url = 'https://gitlab.com/api/v4/projects/' + projId + '/repository/branches?access_token=' + token;
+     url = 'https://gitlab.com/api/v4/projects/' + projId + '/repository/branches?per_page=100&access_token=' + token;
      xmlHttp.open("GET", url, true);
     }
 
     console.log('projId2',projId);
       
-    
-      
+    var pages = 2;
+      var elementsResp = 0;
       xmlHttp.responseType = 'json';
       xmlHttp.onload = function () {
         if (xmlHttp.readyState === 4) {
@@ -189,7 +190,12 @@ commitToGitlab: function(projId, branchName, objects, token,branchId,firstReq,pa
             var tmp = [];
             tempArr.forEach(function (element) {
               tmp.push(element.name);
+              elementsResp++;
             });
+            if(elementsResp ==100){
+              elementsResp =0;
+
+            }
             console.log('tempArr',tempArr);
           var bool = false;
             for(var i = 0; i < tempArr.length; i++) {
@@ -197,13 +203,18 @@ commitToGitlab: function(projId, branchName, objects, token,branchId,firstReq,pa
                 if (tempArr[i].name == branchName) {
                   console.log('bodyForUpdate');
                   module.exports.checkComponentsIfExist(projId, branchName, objects, token,branchId,firstReq,pat,patuse,labCommitMessage);
+                if(i==100){
                   bool = true;
+                }
+                 
                 }
               }else if(firstReq.commitType === 'repo'){
                 if (tempArr[i].name == 'master') {
                   console.log('bodyForUpdate');
                   module.exports.checkComponentsIfExist(projId, 'master', objects, token,branchId,firstReq,pat,patuse,labCommitMessage);
-                  bool = true;
+                  if(i==100){
+                    bool = true;
+                  }
                 }
               }
               
@@ -216,9 +227,18 @@ commitToGitlab: function(projId, branchName, objects, token,branchId,firstReq,pa
       };
       xmlHttp.send(null);
   
-    
-  },
-  
+   */ 
+
+
+if(firstReq.commitType === 'branch'){
+    console.log('firstReq.commitType ----->',firstReq.commitType);
+    module.exports.checkComponentsIfExist(projId, branchName, objects, token,branchId,firstReq,pat,patuse,labCommitMessage);
+}else if(firstReq.commitType === 'repo'){
+  console.log('firstReq.commitType ----->',firstReq.commitType);
+    module.exports.checkComponentsIfExist(projId, 'master', objects, token,branchId,firstReq,pat,patuse,labCommitMessage); 
+}
+},
+
   bodyForUpdate: function(projId, branchName, objects, tok,branchId,firstReq,pat,patuse, labCommitMessage, pathes) {
     console.log('In bodyForUpdate');
     var today = new Date();
@@ -434,13 +454,13 @@ commitToGitlab: function(projId, branchName, objects, token,branchId,firstReq,pa
     var xmlHttp = new XMLHttpRequest();
     var url;
     if(patuse){
-      url = 'https://gitlab.com/api/v4/projects/' + projId + '/repository/tree?ref='+branchName+'&recursive=true&per_page=1000';
+      url = 'https://gitlab.com/api/v4/projects/' + projId + '/repository/tree?ref='+branchName+'&recursive=true';
       xmlHttp.open("GET", url, true);
       xmlHttp.setRequestHeader('PRIVATE-TOKEN', pat);
       console.log('PRIVATE-TOKEN');
     }else{
       console.log('access_token');
-      url = 'https://gitlab.com/api/v4/projects/' + projId + '/repository/tree?access_token=' + tok+'&ref='+branchName+'&recursive=true&per_page=1000';
+      url = 'https://gitlab.com/api/v4/projects/' + projId + '/repository/tree?access_token=' + tok+'&ref='+branchName+'&recursive=true';
       xmlHttp.open("GET", url, true);
       
     }
