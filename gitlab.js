@@ -391,9 +391,11 @@ if(firstReq.commitType === 'branch'){
       }
       
       if(index === mapNameToBody.length -1){
+        console.log('INDEXXXXXXXXXXXXXXXXXXXXXXXXX');
         Promise.all(contents).then( values => {
           
           values.forEach(function(item,index,array){
+            console.log('VALUES');
             let ii =JSON.parse(item);
             delete ii.content;
                let path = ii.file_path;
@@ -428,7 +430,7 @@ if(firstReq.commitType === 'branch'){
           var spitLength = 500;
           let iter = Math.ceil(namesWithBlobsLength / spitLength);
           console.log('saveResponce');
-          console.log('mapNameToBody', mapNameToBody);
+          //console.log('mapNameToBody', mapNameToBody);
           for(let i=0;i<iter;i++){
             console.log('saveResponce2');
             let req = {
