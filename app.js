@@ -554,14 +554,23 @@ app.post('/dataForUpdateGitLab', function(req, res) {
 						//console.log("total2 : " + records.length);
 						//console.log("total : " + records.length);
 						Array.from(branches).forEach(function(branch, brIndex, brArray) {
-							let branchO = {
-								branchId: branch
+							let branch2 = {
+								branchId: branch,
+								commitType: 'branch'
 							};
+			
+							let branch = {
+								branchId: JSON.stringify(branch2)
+							};
+							
+							// let branchO = {
+							// 	branchId: branch
+							// };
 							forAll
 								.httpCallSF(
 									instanceUrl + '/services/apexrest/flosum_git/gitLab',
 									'POST',
-									branchO,
+									branch,
 									accesTok
 								)
 								.then((resp) => {
