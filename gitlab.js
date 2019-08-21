@@ -241,6 +241,7 @@ if(firstReq.commitType === 'branch'){
 
   bodyForUpdate: function(projId, branchName, objects, tok,branchId,firstReq,pat,patuse, labCommitMessage, pathes) {
     console.log('In bodyForUpdate');
+    console.log('pathes',pathes);
     var today = new Date();
     var message; 
     var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
