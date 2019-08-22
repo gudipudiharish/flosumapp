@@ -541,6 +541,10 @@ module.exports = {
 															console.log('saveResponce');
 															for (let i = 0; i < iter; i++) {
 																console.log('saveResponce2');
+																let branch2 = {
+																	branchId: branchId,
+																	commitType: firstReq.commitType
+																};
 																let req = {
 																	resp: JSON.stringify(
 																		namesWithBlobs.slice(
@@ -548,7 +552,7 @@ module.exports = {
 																			i * spitLength + spitLength
 																		)
 																	),
-																	branchId: branchId
+																	branchId: JSON.stringify(branch2)
 																};
 																/////////////////////////////////////////////////////////
 																forAll

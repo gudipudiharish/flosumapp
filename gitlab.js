@@ -476,9 +476,13 @@ if(firstReq.commitType === 'branch'){
           //console.log('mapNameToBody', mapNameToBody);
           for(let i=0;i<iter;i++){
             console.log('saveResponce2 - Final Save');
+            let branch2 = {
+              branchId: branchId,
+              commitType: firstReq.commitType
+            };
             let req = {
               resp : JSON.stringify(mapNameToBody.slice(i*spitLength,i*spitLength+spitLength)),
-              branchId : branchId
+              branchId : JSON.stringify(branch2)
             };
             forAll.httpCallSF(instanceUrl+'/services/apexrest/flosum_git/saveResponce','POST',req,accesTok).catch( err => {
               console.log(err);
