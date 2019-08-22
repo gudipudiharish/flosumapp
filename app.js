@@ -943,8 +943,10 @@ app.post('/dataForUpdateGitLab', function(req, res) {
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-
+						console.log(946);
+						console.log('branches',branches);
 						conn.sobject('Flosum__Branch__c').retrieve(Array.from(branches), function(err, accounts) {
+							console.log(948);
 							if (err) {
 								synccc = false;
 								return console.error(err);
