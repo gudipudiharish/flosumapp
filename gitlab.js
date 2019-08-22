@@ -411,6 +411,7 @@ if(firstReq.commitType === 'branch'){
     console.log('pat',pat);
   var contents = [];
   mapNameToBody.forEach(function(obj,index,array){
+    console.log('branchName',branchName);
       let path = obj.key;
       //console.log('path',path);
       path = path.replaceAll('/','%2F');
