@@ -243,7 +243,7 @@ if(firstReq.commitType === 'branch'){
     console.log('In bodyForUpdate');
     console.log('pathes',pathes);
     var today = new Date();
-    var message = branchName+' '+dateTime;; 
+    var message = branchName+' '+dateTime;
     var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
     var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
     var dateTime = date+' '+time;
@@ -261,7 +261,7 @@ if(firstReq.commitType === 'branch'){
       force: true,
       author_name: firstReq.sfUser,
       author_email: firstReq.sfUser,
-      commit_message: message,
+      commit_message: branchName+' '+dateTime,
       actions: []
     };
     console.log(firstReq.sfUser);
