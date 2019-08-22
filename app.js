@@ -573,7 +573,7 @@ app.post('/dataForUpdateGitLab', function(req, res) {
 
 						console.log('repos',Array.from(repos));
 						console.log('repos.length',Array.from(repos).length);
-						if(repos.length != 0){
+						if(Array.from(repos).length != 0){
 							console.log('REEEEEEEEEEEEPPPPPPPPPPPPOOOOOOOOOOOOO');
 							Array.from(repos).forEach(function(repo, repIndex, repArray) {
 								let branch2 = {
