@@ -538,6 +538,7 @@ app.post('/dataForUpdateGitLab', function(req, res) {
 										branches.add(item.flosum_git__Branch_Id__c);
 									return item;
 								}else if(item.flosum_git__Repository__c){
+									console.log('item.flosum_git__Repository__c',item.flosum_git__Repository__c);
 									repos.add(item.flosum_git__Repository__c);
 									return item;
 								}								
@@ -572,6 +573,7 @@ app.post('/dataForUpdateGitLab', function(req, res) {
 
 						console.log('repos',repos);
 						if(repos.length != 0){
+							console.log('REEEEEEEEEEEEPPPPPPPPPPPPOOOOOOOOOOOOO');
 							Array.from(repos).forEach(function(repo, repIndex, repArray) {
 								let branch2 = {
 									branchId: repo,
