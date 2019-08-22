@@ -535,8 +535,10 @@ app.post('/dataForUpdateGitLab', function(req, res) {
 							//console.log('item',item);
 							if (item.flosum_git__GitLab__c != null) {
 								if(item.flosum_git__Branch_Id__c){
+									if(!item.flosum_git__Repository_Id__c){
 										branches.add(item.flosum_git__Branch_Id__c);
-									return item;
+										return item;
+									}
 								}else if(item.flosum_git__Repository_Id__c){
 									console.log('item.flosum_git__Repository__c',item.flosum_git__Repository_Id__c);
 									repos.add(item.flosum_git__Repository_Id__c);
