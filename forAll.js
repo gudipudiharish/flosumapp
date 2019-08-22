@@ -110,119 +110,122 @@ module.exports = {
           zipp.loadAsync(item.attachment.Body.substring(1, item.attachment.Body.length-1), { base64: true }).then(function (zip) {
             let i = 0;
           zip.forEach(function (relativePath, file) {
-              if(item.component.Flosum__Component_Type__c != 'CustomField' && item.component.Flosum__Component_Type__c != 'WebLink' && item.component.Flosum__Component_Type__c != 'ListView' && item.component.Flosum__Component_Type__c != 'FieldSet' && item.component.Flosum__Component_Type__c != 'BusinessProcess' && item.component.Flosum__Component_Type__c != 'CompactLayout' && item.component.Flosum__Component_Type__c != 'SharingReason' && item.component.Flosum__Component_Type__c != 'ValidationRule' && item.component.Flosum__Component_Type__c != 'RecordType'){
-                  if(item.component.Flosum__Component_Type__c != 'CustomObject'){
-                      zip.file(relativePath).async(format).then(function (data) {                            
-                          mapNameToBody.push({value:data, key:'app/main/default/'+ relativePath, type: item.component.Flosum__Component_Type__c, name: item.component.Flosum__Component_Name__c, component : item.component , history : item.history, attachment : item.attachment.Id }); // add 11.04
-                          //component.set("v.objectMap", mapNameToBody);
-                          if(Object.keys(zip.files).length-1 === i){
-                            resolve(index);
-                          }else{
-                            i++;
-                          }
-                          
-                      })
-                  }else{
-                    
-                    if(zip.file(relativePath) === null){
-                      //console.log('relativePath',relativePath);
-                    }
-                      zip.file(relativePath).async(format).then(function (data) {                            
-                       let folder = relativePath.split('/')[1].split('.')[0] + '/';
-                       relativePath = relativePath.splice(8,0,folder);
-                          mapNameToBody.push({value: data, key:'app/main/default/'+ relativePath, type: item.component.Flosum__Component_Type__c, name: item.component.Flosum__Component_Name__c, component : item.component , history : item.history, attachment : item.attachment.Id }); // add 11.04
-                          //component.set("v.objectMap", mapNameToBody); //add  11.04
-                          if(Object.keys(zip.files).length-1 === i){
-                            resolve(index);
-                          }else{
-                            i++;
-                          }
-                      }).catch( err => {
-                        if(err){
-                          console.log('err',err);
+            console.log('relativePath',relativePath);
+            if(relativePath){
+            if(item.component.Flosum__Component_Type__c != 'CustomField' && item.component.Flosum__Component_Type__c != 'WebLink' && item.component.Flosum__Component_Type__c != 'ListView' && item.component.Flosum__Component_Type__c != 'FieldSet' && item.component.Flosum__Component_Type__c != 'BusinessProcess' && item.component.Flosum__Component_Type__c != 'CompactLayout' && item.component.Flosum__Component_Type__c != 'SharingReason' && item.component.Flosum__Component_Type__c != 'ValidationRule' && item.component.Flosum__Component_Type__c != 'RecordType'){
+                if(item.component.Flosum__Component_Type__c != 'CustomObject'){
+                    zip.file(relativePath).async(format).then(function (data) {                            
+                        mapNameToBody.push({value:data, key:'app/main/default/'+ relativePath, type: item.component.Flosum__Component_Type__c, name: item.component.Flosum__Component_Name__c, component : item.component , history : item.history, attachment : item.attachment.Id }); // add 11.04
+                        //component.set("v.objectMap", mapNameToBody);
+                        if(Object.keys(zip.files).length-1 === i){
+                          resolve(index);
+                        }else{
+                          i++;
                         }
-                      });
-        
-                  }
-              }else if(item.component.Flosum__Component_Type__c === 'CustomField' || item.component.Flosum__Component_Type__c === 'WebLink' || item.component.Flosum__Component_Type__c === 'ListView' || item.component.Flosum__Component_Type__c === 'FieldSet'|| item.component.Flosum__Component_Type__c === 'BusinessProcess'|| item.component.Flosum__Component_Type__c === 'CompactLayout'|| item.component.Flosum__Component_Type__c === 'SharingReason'|| item.component.Flosum__Component_Type__c === 'ValidationRule' || item.component.Flosum__Component_Type__c === 'RecordType'){
-                zip.file(relativePath).async(format).then(function (data) {                            
+                        
+                    })
+                }else{
                   
-                    if(item.component.Flosum__Component_Type__c === 'CustomField'){
-                      relativePath = relativePath.split('.')[0] + '/fields/' + item.component.Flosum__Component_Name__c.split('.')[1] + '.field-meta.xml';
-                      mapNameToBody.push({value:data, key:'app/main/default/'+ relativePath, type: item.component.Flosum__Component_Type__c, name: item.component.Flosum__Component_Name__c, component : item.component , history : item.history, attachment : item.attachment.Id }); // add 11.04
-                      if(Object.keys(zip.files).length-1 === i){
-                        resolve(index);
-                      }else{
-                        i++;
+                  if(zip.file(relativePath) === null){
+                    //console.log('relativePath',relativePath);
+                  }
+                    zip.file(relativePath).async(format).then(function (data) {                            
+                     let folder = relativePath.split('/')[1].split('.')[0] + '/';
+                     relativePath = relativePath.splice(8,0,folder);
+                        mapNameToBody.push({value: data, key:'app/main/default/'+ relativePath, type: item.component.Flosum__Component_Type__c, name: item.component.Flosum__Component_Name__c, component : item.component , history : item.history, attachment : item.attachment.Id }); // add 11.04
+                        //component.set("v.objectMap", mapNameToBody); //add  11.04
+                        if(Object.keys(zip.files).length-1 === i){
+                          resolve(index);
+                        }else{
+                          i++;
+                        }
+                    }).catch( err => {
+                      if(err){
+                        console.log('err',err);
                       }
-                    }else if(item.component.Flosum__Component_Type__c === 'WebLink'){
-                      relativePath = relativePath.split('.')[0] + '/webLinks/' + item.component.Flosum__Component_Name__c.split('.')[1] + '.webLinks-meta.xml';
-                      mapNameToBody.push({value:data, key:'app/main/default/'+ relativePath, type: item.component.Flosum__Component_Type__c, name: item.component.Flosum__Component_Name__c, component : item.component , history : item.history, attachment : item.attachment.Id }); // add 11.04
-                      if(Object.keys(zip.files).length-1 === i){
-                        resolve(index);
-                      }else{
-                        i++;
-                      }
-                    }else if(item.component.Flosum__Component_Type__c === 'ListView'){
-                      relativePath = relativePath.split('.')[0] + '/listViews/' + item.component.Flosum__Component_Name__c.split('.')[1] + '.listView-meta.xml';
-                      mapNameToBody.push({value:data, key:'app/main/default/'+ relativePath, type: item.component.Flosum__Component_Type__c, name: item.component.Flosum__Component_Name__c, component : item.component , history : item.history, attachment : item.attachment.Id }); // add 11.04
-                      if(Object.keys(zip.files).length-1 === i){
-                        resolve(index);
-                      }else{
-                        i++;
-                      }
-                    }else if(item.component.Flosum__Component_Type__c === 'FieldSet'){
-                      relativePath = relativePath.split('.')[0] + '/fieldSets/' + item.component.Flosum__Component_Name__c.split('.')[1] + '.fieldSets-meta.xml';
-                      mapNameToBody.push({value:data, key:'app/main/default/'+ relativePath, type: item.component.Flosum__Component_Type__c, name: item.component.Flosum__Component_Name__c, component : item.component , history : item.history, attachment : item.attachment.Id }); // add 11.04
-                      if(Object.keys(zip.files).length-1 === i){
-                        resolve(index);
-                      }else{
-                        i++;
-                      }
-                    }else if(item.component.Flosum__Component_Type__c === 'BusinessProcess'){
-                      relativePath = relativePath.split('.')[0] + '/businessProcesses/' + item.component.Flosum__Component_Name__c.split('.')[1] + '.businessProcesses-meta.xml';
-                      mapNameToBody.push({value:data, key:'app/main/default/'+ relativePath, type: item.component.Flosum__Component_Type__c, name: item.component.Flosum__Component_Name__c, component : item.component , history : item.history, attachment : item.attachment.Id }); // add 11.04
-                      if(Object.keys(zip.files).length-1 === i){
-                        resolve(index);
-                      }else{
-                        i++;
-                      }
-                    }else if(item.component.Flosum__Component_Type__c === 'CompactLayout'){
-                      relativePath = relativePath.split('.')[0] + '/compactLayouts/' + item.component.Flosum__Component_Name__c.split('.')[1] + '.compactLayouts-meta.xml';
-                      mapNameToBody.push({value:data, key:'app/main/default/'+ relativePath, type: item.component.Flosum__Component_Type__c, name: item.component.Flosum__Component_Name__c, component : item.component , history : item.history, attachment : item.attachment.Id }); // add 11.04
-                      if(Object.keys(zip.files).length-1 === i){
-                        resolve(index);
-                      }else{
-                        i++;
-                      }
-                    }else if(item.component.Flosum__Component_Type__c === 'RecordType'){
-                      relativePath = relativePath.split('.')[0] + '/recordTypes/' + item.component.Flosum__Component_Name__c.split('.')[1] + '.recordTypes-meta.xml';
-                      mapNameToBody.push({value:data, key:'app/main/default/'+ relativePath, type: item.component.Flosum__Component_Type__c, name: item.component.Flosum__Component_Name__c, component : item.component , history : item.history, attachment : item.attachment.Id }); // add 11.04
-                      if(Object.keys(zip.files).length-1 === i){
-                        resolve(index);
-                      }else{
-                        i++;
-                      }
-                    }else if(item.component.Flosum__Component_Type__c === 'SharingReason'){
-                      relativePath = relativePath.split('.')[0] + '/sharingReasons/' + item.component.Flosum__Component_Name__c.split('.')[1] + '.sharingReasons-meta.xml';
-                      mapNameToBody.push({value:data, key:'app/main/default/'+ relativePath, type: item.component.Flosum__Component_Type__c, name: item.component.Flosum__Component_Name__c, component : item.component , history : item.history, attachment : item.attachment.Id }); // add 11.04
-                      if(Object.keys(zip.files).length-1 === i){
-                        resolve(index);
-                      }else{
-                        i++;
-                      }
-                    }else if(item.component.Flosum__Component_Type__c === 'ValidationRule'){
-                      relativePath = relativePath.split('.')[0] + '/validationRules/' + item.component.Flosum__Component_Name__c.split('.')[1] + '.validationRules-meta.xml';
-                      mapNameToBody.push({value:data, key:'app/main/default/'+ relativePath, type: item.component.Flosum__Component_Type__c, name: item.component.Flosum__Component_Name__c, component : item.component , history : item.history, attachment : item.attachment.Id }); // add 11.04
-                      if(Object.keys(zip.files).length-1 === i){
-                        resolve(index);
-                      }else{
-                        i++;
-                      }
+                    });
+      
+                }
+            }else if(item.component.Flosum__Component_Type__c === 'CustomField' || item.component.Flosum__Component_Type__c === 'WebLink' || item.component.Flosum__Component_Type__c === 'ListView' || item.component.Flosum__Component_Type__c === 'FieldSet'|| item.component.Flosum__Component_Type__c === 'BusinessProcess'|| item.component.Flosum__Component_Type__c === 'CompactLayout'|| item.component.Flosum__Component_Type__c === 'SharingReason'|| item.component.Flosum__Component_Type__c === 'ValidationRule' || item.component.Flosum__Component_Type__c === 'RecordType'){
+              zip.file(relativePath).async(format).then(function (data) {                            
+                
+                  if(item.component.Flosum__Component_Type__c === 'CustomField'){
+                    relativePath = relativePath.split('.')[0] + '/fields/' + item.component.Flosum__Component_Name__c.split('.')[1] + '.field-meta.xml';
+                    mapNameToBody.push({value:data, key:'app/main/default/'+ relativePath, type: item.component.Flosum__Component_Type__c, name: item.component.Flosum__Component_Name__c, component : item.component , history : item.history, attachment : item.attachment.Id }); // add 11.04
+                    if(Object.keys(zip.files).length-1 === i){
+                      resolve(index);
+                    }else{
+                      i++;
                     }
-  
-                });
-        }
+                  }else if(item.component.Flosum__Component_Type__c === 'WebLink'){
+                    relativePath = relativePath.split('.')[0] + '/webLinks/' + item.component.Flosum__Component_Name__c.split('.')[1] + '.webLinks-meta.xml';
+                    mapNameToBody.push({value:data, key:'app/main/default/'+ relativePath, type: item.component.Flosum__Component_Type__c, name: item.component.Flosum__Component_Name__c, component : item.component , history : item.history, attachment : item.attachment.Id }); // add 11.04
+                    if(Object.keys(zip.files).length-1 === i){
+                      resolve(index);
+                    }else{
+                      i++;
+                    }
+                  }else if(item.component.Flosum__Component_Type__c === 'ListView'){
+                    relativePath = relativePath.split('.')[0] + '/listViews/' + item.component.Flosum__Component_Name__c.split('.')[1] + '.listView-meta.xml';
+                    mapNameToBody.push({value:data, key:'app/main/default/'+ relativePath, type: item.component.Flosum__Component_Type__c, name: item.component.Flosum__Component_Name__c, component : item.component , history : item.history, attachment : item.attachment.Id }); // add 11.04
+                    if(Object.keys(zip.files).length-1 === i){
+                      resolve(index);
+                    }else{
+                      i++;
+                    }
+                  }else if(item.component.Flosum__Component_Type__c === 'FieldSet'){
+                    relativePath = relativePath.split('.')[0] + '/fieldSets/' + item.component.Flosum__Component_Name__c.split('.')[1] + '.fieldSets-meta.xml';
+                    mapNameToBody.push({value:data, key:'app/main/default/'+ relativePath, type: item.component.Flosum__Component_Type__c, name: item.component.Flosum__Component_Name__c, component : item.component , history : item.history, attachment : item.attachment.Id }); // add 11.04
+                    if(Object.keys(zip.files).length-1 === i){
+                      resolve(index);
+                    }else{
+                      i++;
+                    }
+                  }else if(item.component.Flosum__Component_Type__c === 'BusinessProcess'){
+                    relativePath = relativePath.split('.')[0] + '/businessProcesses/' + item.component.Flosum__Component_Name__c.split('.')[1] + '.businessProcesses-meta.xml';
+                    mapNameToBody.push({value:data, key:'app/main/default/'+ relativePath, type: item.component.Flosum__Component_Type__c, name: item.component.Flosum__Component_Name__c, component : item.component , history : item.history, attachment : item.attachment.Id }); // add 11.04
+                    if(Object.keys(zip.files).length-1 === i){
+                      resolve(index);
+                    }else{
+                      i++;
+                    }
+                  }else if(item.component.Flosum__Component_Type__c === 'CompactLayout'){
+                    relativePath = relativePath.split('.')[0] + '/compactLayouts/' + item.component.Flosum__Component_Name__c.split('.')[1] + '.compactLayouts-meta.xml';
+                    mapNameToBody.push({value:data, key:'app/main/default/'+ relativePath, type: item.component.Flosum__Component_Type__c, name: item.component.Flosum__Component_Name__c, component : item.component , history : item.history, attachment : item.attachment.Id }); // add 11.04
+                    if(Object.keys(zip.files).length-1 === i){
+                      resolve(index);
+                    }else{
+                      i++;
+                    }
+                  }else if(item.component.Flosum__Component_Type__c === 'RecordType'){
+                    relativePath = relativePath.split('.')[0] + '/recordTypes/' + item.component.Flosum__Component_Name__c.split('.')[1] + '.recordTypes-meta.xml';
+                    mapNameToBody.push({value:data, key:'app/main/default/'+ relativePath, type: item.component.Flosum__Component_Type__c, name: item.component.Flosum__Component_Name__c, component : item.component , history : item.history, attachment : item.attachment.Id }); // add 11.04
+                    if(Object.keys(zip.files).length-1 === i){
+                      resolve(index);
+                    }else{
+                      i++;
+                    }
+                  }else if(item.component.Flosum__Component_Type__c === 'SharingReason'){
+                    relativePath = relativePath.split('.')[0] + '/sharingReasons/' + item.component.Flosum__Component_Name__c.split('.')[1] + '.sharingReasons-meta.xml';
+                    mapNameToBody.push({value:data, key:'app/main/default/'+ relativePath, type: item.component.Flosum__Component_Type__c, name: item.component.Flosum__Component_Name__c, component : item.component , history : item.history, attachment : item.attachment.Id }); // add 11.04
+                    if(Object.keys(zip.files).length-1 === i){
+                      resolve(index);
+                    }else{
+                      i++;
+                    }
+                  }else if(item.component.Flosum__Component_Type__c === 'ValidationRule'){
+                    relativePath = relativePath.split('.')[0] + '/validationRules/' + item.component.Flosum__Component_Name__c.split('.')[1] + '.validationRules-meta.xml';
+                    mapNameToBody.push({value:data, key:'app/main/default/'+ relativePath, type: item.component.Flosum__Component_Type__c, name: item.component.Flosum__Component_Name__c, component : item.component , history : item.history, attachment : item.attachment.Id }); // add 11.04
+                    if(Object.keys(zip.files).length-1 === i){
+                      resolve(index);
+                    }else{
+                      i++;
+                    }
+                  }
+
+              });
+      }
+            }
           });
           
         }, function (e) {          
