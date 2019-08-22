@@ -608,8 +608,8 @@ app.post('/dataForUpdateGitLab', function(req, res) {
 							records.forEach(function(item, index, array) {
 								accounts.forEach(function(acc, i, ar) {
 									if (
-										item.flosum_git__Repository__c === acc.Id ||
-										acc.Id.includes(item.flosum_git__Repository__c)
+										item.flosum_git__Repository_Id__c === acc.Id ||
+										acc.Id.includes(item.flosum_git__Repository_Id__c)
 									) {
 										item.Flosum__Branch_Name__c = 'master';
 									}
@@ -619,8 +619,8 @@ app.post('/dataForUpdateGitLab', function(req, res) {
 							setTimeout(function() {
 								var contents = [];
 								records.forEach(function(obj, index, array) {
-									if(obj.flosum_git__Repository__c){										
-									let brId = obj.flosum_git__Repository__c;
+									if(obj.flosum_git__Repository_Id__c){										
+									let brId = obj.flosum_git__Repository_Id__c;
 									let branchName = 'master';
 									let path = obj.flosum_git__Path__c;
 									path = path.replaceAll('/', '%2F');
