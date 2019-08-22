@@ -367,6 +367,7 @@ if(firstReq.commitType === 'branch'){
     loginUrl : 'https://'+ process.env.env +'.salesforce.com'
   });
 
+  console.log('firstReq.runMerge',firstReq.runMerge);
   if(firstReq.runMerge){
   //conn.login('ibegei@forceoft.com.git', 'Veryeasy4473', function(err, userInfo) {
     conn.login(process.env.username, process.env.password, function(err, userInfo) {
