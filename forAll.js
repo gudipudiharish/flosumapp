@@ -30,8 +30,8 @@ module.exports = {
         
       },
       getFilesForCompareWithBranch : function(records,offset,count,conn,flosumBrIds,localFilesMap){     
-        console.log('getFilesForCompare');
-        console.log('flosumBrIds',flosumBrIds);
+        //console.log('getFilesForCompare');
+        //console.log('flosumBrIds',flosumBrIds);
         return  new Promise(function(resolve, reject) {
           conn.sobject("flosum_git__History_Git__c").find({
             'flosum_git__Branch_Id__c' : {$in : flosumBrIds}
@@ -125,7 +125,7 @@ module.exports = {
                   }else{
                     
                     if(zip.file(relativePath) === null){
-                      console.log('relativePath',relativePath);
+                      //console.log('relativePath',relativePath);
                     }
                       zip.file(relativePath).async(format).then(function (data) {                            
                        let folder = relativePath.split('/')[1].split('.')[0] + '/';
@@ -311,8 +311,8 @@ module.exports = {
                  // console.log('xmlHttp.status',xmlHttp.readyState);
                     if (xmlHttp.readyState === 4) {
                         if (xmlHttp.status === 200) {
-                          console.log('urlreq',urlreq);
-                          console.log('JSON.parse(JSON.stringify(xmlHttp.responseText))',JSON.parse(JSON.stringify(xmlHttp.responseText)));
+                          //console.log('urlreq',urlreq);
+                          //console.log('JSON.parse(JSON.stringify(xmlHttp.responseText))',JSON.parse(JSON.stringify(xmlHttp.responseText)));
                             resolve(JSON.parse(JSON.stringify(xmlHttp.responseText)));
                         }else{
                           //console.log('urlreq',urlreq);
