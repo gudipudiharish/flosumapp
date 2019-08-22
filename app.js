@@ -537,9 +537,9 @@ app.post('/dataForUpdateGitLab', function(req, res) {
 								if(item.flosum_git__Branch_Id__c){
 										branches.add(item.flosum_git__Branch_Id__c);
 									return item;
-								}else if(item.flosum_git__Repository__c){
-									console.log('item.flosum_git__Repository__c',item.flosum_git__Repository__c);
-									repos.add(item.flosum_git__Repository__c);
+								}else if(item.flosum_git__Repository_Id__c){
+									console.log('item.flosum_git__Repository__c',item.flosum_git__Repository_Id__c);
+									repos.add(item.flosum_git__Repository_Id__c);
 									return item;
 								}								
 							}
@@ -964,6 +964,7 @@ app.post('/dataForUpdateGitLab', function(req, res) {
 							var recordsWithResp = [];
 							setTimeout(function() {
 								var contents = [];
+								console.log(967);
 								records.forEach(function(obj, index, array) {
 									let brId = obj.flosum_git__Branch_Id__c;
 									let branchName = obj.Flosum__Branch_Name__c;
@@ -982,6 +983,7 @@ app.post('/dataForUpdateGitLab', function(req, res) {
 											branchWithProjId.get(brId).pat,true
 										)
 									);
+									console.log(986);
 									if (index === records.length - 1) {
 										Promise.all(contents)
 											.then((values) => {
@@ -1036,7 +1038,7 @@ app.post('/dataForUpdateGitLab', function(req, res) {
 												console.log('length',length);
 												var itemsList = [];
 												let ii = 0;
-												console.log(691);
+												console.log(1041);
 												newMap.forEach(function(values, key) {
 													values.forEach(function(item, index, array) {
 														let brId = item.flosum_git__Branch_Id__c;
@@ -1189,9 +1191,11 @@ app.post('/dataForUpdateGitLab', function(req, res) {
 																Flosum__Version__c: version,
 																Flosum__CRC32__c: CRC32
 															};
+															console.log(1194);
 															conn
 																.sobject('Flosum__Component_History__c')
 																.create(comhis, function(err, history) {
+																	console.log(1198);
 																	if (!err) {
 																		conn.sobject('Attachment').create({
 																			ParentId: history.id,

@@ -10,7 +10,7 @@ module.exports = {
     getFilesForCompare : function(records,offset,count,conn, instance){
         console.log('getFilesForCompare');
         return  new Promise(function(resolve, reject) {
-          conn.query("SELECT flosum_git__Component_History__c, flosum_git__Component__c,flosum_git__GitLab__c, flosum_git__Repository__c, flosum_git__Attachment_SHA__c, flosum_git__Attachment_Id__c, flosum_git__Branch_Id__c, flosum_git__isLastVersion__c, flosum_git__History_Git_External_Id__c, flosum_git__Component_type__c, flosum_git__Path__c, flosum_git__Component_Version__c, flosum_git__UpsertField__c, flosum_git__Bitbucket__c, flosum_git__Bitbucket_responce__c, Id, Name FROM flosum_git__History_Git__c WHERE flosum_git__isLastVersion__c = true "+instance+" LIMIT 1000 OFFSET "+offset, function(err, result) {
+          conn.query("SELECT flosum_git__Component_History__c, flosum_git__Component__c,flosum_git__Repository_Id__c,flosum_git__GitLab__c, flosum_git__Repository__c, flosum_git__Attachment_SHA__c, flosum_git__Attachment_Id__c, flosum_git__Branch_Id__c, flosum_git__isLastVersion__c, flosum_git__History_Git_External_Id__c, flosum_git__Component_type__c, flosum_git__Path__c, flosum_git__Component_Version__c, flosum_git__UpsertField__c, flosum_git__Bitbucket__c, flosum_git__Bitbucket_responce__c, Id, Name FROM flosum_git__History_Git__c WHERE flosum_git__isLastVersion__c = true "+instance+" LIMIT 1000 OFFSET "+offset, function(err, result) {
             if(err){
               reject(err);
             }else{
