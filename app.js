@@ -633,7 +633,7 @@ app.post('/dataForUpdateGitLab', function(req, res) {
 									if (index === records.length - 1) {
 										Promise.all(contents)
 											.then((values) => {
-												console.log('values',values);
+												//console.log('values',values);
 												values.forEach(function(val, index, array) {
 													let sfResp = JSON.parse(records[index].flosum_git__GitLab__c);
 													if (sfResp.content_sha256 != JSON.parse(val).content_sha256) {
@@ -688,6 +688,7 @@ app.post('/dataForUpdateGitLab', function(req, res) {
 												//console.log('length',length);
 												var itemsList = [];
 												let ii = 0;
+												console.log(691);
 												newMap.forEach(function(values, key) {
 													values.forEach(function(item, index, array) {
 														//itemsList.push(item);
@@ -698,7 +699,12 @@ app.post('/dataForUpdateGitLab', function(req, res) {
 														//console.log('path',path);
 														path = path.replaceAll('/', '%2F');
 														path = path.replaceAll('.', '%2E');
-
+														console.log('https://gitlab.com/api/v4/projects/' +
+														branchWithProjId.get(brId).projectId +
+														'/repository/files/' +
+														path +
+														'?ref=' +
+														branchName);
 														itemsList.push(
 															forAll.httpGet(
 																'https://gitlab.com/api/v4/projects/' +
@@ -706,8 +712,8 @@ app.post('/dataForUpdateGitLab', function(req, res) {
 																	'/repository/files/' +
 																	path +
 																	'?ref=' +
-																	branchName,
-																branchWithProjId.get(brId).pat
+																	branchName,null,
+																branchWithProjId.get(brId).pat,true
 															)
 														);
 														ii++;
