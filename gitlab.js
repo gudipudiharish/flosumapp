@@ -59,9 +59,9 @@ module.exports = {
             branchId: JSON.stringify(branch2)
           };
   
-          console.log('branchNAME---->  '+req.body);
+    //      console.log('branchNAME---->  '+req.body);
           forAll.httpCallSF(instanceUrl+'/services/apexrest/flosum_git/gitLab','POST',branch,accesTok).then(resp => {
-      console.log('****resp ----> '+resp);
+   //   console.log('****resp ----> '+resp);
           getCreds = parser.parse(resp);
           console.log(getCreds);
           token = JSON.parse(getCreds).token;
@@ -243,7 +243,7 @@ if(firstReq.commitType === 'branch'){
 
   bodyForUpdate: function(projId, branchName, objects, tok,branchId,firstReq,pat,patuse, labCommitMessage, pathes) {
     console.log('In bodyForUpdate');
-    console.log('pathes',pathes);
+   // console.log('pathes',pathes);
     var today = new Date();
     var message = branchName+' '+dateTime;
     var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
@@ -267,7 +267,7 @@ if(firstReq.commitType === 'branch'){
       actions: []
     };
     console.log(firstReq.sfUser);
-    console.log(firstReq.sfUser);
+  //  console.log(firstReq.sfUser);
     function removeDuplicates(originalArray, prop) {
       var newArray = [];
       var lookupObject = {};
@@ -294,7 +294,7 @@ if(firstReq.commitType === 'branch'){
         // console.log('pathes.includes => ',pathes.includes(element.key));
         // console.log('pathes ',pathes);
         if(pathes.includes(element.key.toString())){
-          console.log('includes',element.key.toString());
+        //  console.log('includes',element.key.toString());
           actions = 'update';
           // console.log('actions', actions);
         }else{
@@ -429,11 +429,11 @@ if(firstReq.commitType === 'branch'){
       
       
       if(index === mapNameToBody.length -1){
-        console.log('INDEX');
+       // console.log('INDEX');
         Promise.all(contents).then( values => {
           
           values.forEach(function(item,index,array){
-            console.log('VALUES');
+         //   console.log('VALUES');
             let ii =JSON.parse(item);
             delete ii.content;
                let path = ii.file_path;
@@ -470,7 +470,7 @@ if(firstReq.commitType === 'branch'){
           console.log('saveResponce');
           //console.log('mapNameToBody', mapNameToBody);
           for(let i=0;i<iter;i++){
-            console.log('saveResponce2');
+            console.log('saveResponce2 - Final Save');
             let req = {
               resp : JSON.stringify(mapNameToBody.slice(i*spitLength,i*spitLength+spitLength)),
               branchId : branchId
@@ -525,7 +525,7 @@ if(firstReq.commitType === 'branch'){
          // console.log('xmlHttp.responseText',responce);
           responce.forEach(element => {
             if(element.type =='blob' || element.mode =='100644'){
-            console.log('element.path', element.path);
+          //  console.log('element.path', element.path);
             if(element.path.toString() != 'README.md'){
               pathes.push(element.path.toString());
             }            
@@ -536,7 +536,7 @@ if(firstReq.commitType === 'branch'){
           }else{
             module.exports.checkComponentsIfExist(projId, branchName, objects, tok,branchId,firstReq,pat,patuse,labCommitMessage,true,pathes,page+1);
           }
-          console.log('pathes',pathes);
+         // console.log('pathes',pathes);
           //pathes.shift(); 
           //console.log('pathes',pathes);
        //   console.log('pathes',pathes);
