@@ -359,7 +359,7 @@ if(firstReq.commitType === 'branch'){
        
         if (xmlHttp.status === 200 || xmlHttp.status === 201) {
           synccc = false;
-          module.exports.fileHistoryGitLab(uniqueArray,tok,branchName,projId,branchId,pat,patuse);
+          module.exports.fileHistoryGitLab(uniqueArray,tok,branchName,projId,branchId,pat,patuse,firstReq);
   console.log('*****PUSHED*****');
 
   var conn = new jsforce.Connection({
@@ -410,7 +410,7 @@ if(firstReq.commitType === 'branch'){
   },
   
   
-   fileHistoryGitLab:function(mapNameToBody,tok,branchName,projId,branchId,pat,patuse){
+   fileHistoryGitLab:function(mapNameToBody,tok,branchName,projId,branchId,pat,patuse,firstReq){
     
     //console.log('uniqueArray',mapNameToBody);
     console.log('patuse',patuse);
