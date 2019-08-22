@@ -382,7 +382,7 @@ if(firstReq.commitType === 'branch'){
             sfRecords[0].flosum_git__oldMergeBranch__c = JSON.stringify(firstReq.oldMergeBranch);
             sfRecords[0].flosum_git__mergeBranch__c = JSON.stringify(firstReq.mergeBranch);
             conn.sobject("flosum_git__Branch_Git__c").update(
-              { Id: sfRecords[0].Id, flosum_git__run_merge__c: new Date() },
+              { Id: sfRecords[0].Id, flosum_git__run_merge__c: Date.now() },
               function (err, rets) {
                 if (err) { return console.error(err); } else {
                   console.log(rets);
