@@ -532,7 +532,7 @@ app.post('/dataForUpdateGitLab', function(req, res) {
 					})
 					.then(() => {
 						records = records.filter(function(item) {
-							console.log('item',item);
+							//console.log('item',item);
 							if (item.flosum_git__GitLab__c != null) {
 								if(item.flosum_git__Branch_Id__c){
 										branches.add(item.flosum_git__Branch_Id__c);
@@ -571,7 +571,7 @@ app.post('/dataForUpdateGitLab', function(req, res) {
 
 
 
-						console.log('repos',Array.from(repos));
+						//console.log('repos',Array.from(repos));
 						console.log('repos.length',Array.from(repos).length);
 						if(Array.from(repos).length != 0){
 							console.log('REEEEEEEEEEEEPPPPPPPPPPPPOOOOOOOOOOOOO');
@@ -627,7 +627,7 @@ app.post('/dataForUpdateGitLab', function(req, res) {
 									path = path.replaceAll('.', '%2E');
 									
 									if(repoWithProjId.size != 0){
-										console.log('branchWithProjId.get(brId).projectId',repoWithProjId);
+										//console.log('branchWithProjId.get(brId).projectId',repoWithProjId);
 									contents.push(
 										forAll.httpGet(
 											'https://gitlab.com/api/v4/projects/' +
