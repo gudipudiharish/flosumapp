@@ -314,7 +314,7 @@ module.exports = {
                  // console.log('xmlHttp.status',xmlHttp.readyState);
                     if (xmlHttp.readyState === 4) {
                         if (xmlHttp.status === 200) {
-                          //console.log('urlreq',urlreq);
+                          console.log('urlreq',urlreq);
                           //console.log('JSON.parse(JSON.stringify(xmlHttp.responseText))',JSON.parse(JSON.stringify(xmlHttp.responseText)));
                             resolve(JSON.parse(JSON.stringify(xmlHttp.responseText)));
                         }else{
