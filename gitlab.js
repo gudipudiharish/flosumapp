@@ -360,30 +360,35 @@ if(firstReq.commitType === 'branch'){
           module.exports.fileHistoryGitLab(uniqueArray,tok,branchName,projId,branchId,pat,patuse);
   console.log('*****PUSHED*****');
 
+  var conn = new jsforce.Connection({
+    // you can change loginUrl to connect to sandbox or prerelease env.
+    loginUrl : 'https://'+ process.env.env +'.salesforce.com'
+  });
 
-conn.sobject("flosum_git__Branch_Git__c").find({
-																								'flosum_git__Git_Branch_Id__c': { $like: branchId }
-																							})
-																								.limit(1)
-																								.execute(function (err, sfRecords) {
-																									if (err) {
-																										console.log('err', err);
-																									} else {
-                                                    sfRecords[0].flosum_git__oldMergeBranch__c = 'qwe';
-                                                    sfRecords[0].flosum_git__mergeBranch__c = 'qwe';
-																										conn.sobject("flosum_git__Branch_Git__c").update(
-																											{ Id: sfRecords[0].Id, flosum_git__oldMergeBranch__c: sfRecords[0].flosum_git__oldMergeBranch__c,flosum_git__mergeBranch__c: sfRecords[0].flosum_git__mergeBranch__c },
-																											function (err, rets) {
-																												if (err) { return console.error(err); } else {
-																													console.log(rets);
-																												}
-
-																											});
-																									}
-																								});
-
-
-
+  //conn.login('ibegei@forceoft.com.git', 'Veryeasy4473', function(err, userInfo) {
+    conn.login(process.env.username, process.env.password, function(err, userInfo) {
+      accesTok = conn.accessToken;
+      instanceUrl =  conn.instanceUrl;
+      conn.sobject("flosum_git__Branch_Git__c").find({
+        'flosum_git__Git_Branch_Id__c': { $like: branchId }
+      })
+        .limit(1)
+        .execute(function (err, sfRecords) {
+          if (err) {
+            console.log('err', err);
+          } else {
+            sfRecords[0].flosum_git__oldMergeBranch__c = 'qwe';
+            sfRecords[0].flosum_git__mergeBranch__c = 'qwe';
+            conn.sobject("flosum_git__Branch_Git__c").update(
+              { Id: sfRecords[0].Id, flosum_git__oldMergeBranch__c: sfRecords[0].flosum_git__oldMergeBranch__c,flosum_git__mergeBranch__c: sfRecords[0].flosum_git__mergeBranch__c },
+              function (err, rets) {
+                if (err) { return console.error(err); } else {
+                  console.log(rets);
+                }
+              });
+          }
+        });
+    });
       }else{
         console.log('ELSE 200');
         console.log('xmlHttp.responseText',xmlHttp.responseText);
