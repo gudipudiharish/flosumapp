@@ -513,7 +513,7 @@ if(firstReq.commitType === 'branch'){
           responce = JSON.parse(xmlHttp.responseText);
          // console.log('xmlHttp.responseText',responce);
           responce.forEach(element => {
-            if(element.type =='blob'){
+            if(element.type =='blob' || element.mode =='100644'){
             console.log('element.path', element.path);
             pathes.push(element.path.toString());
             }
