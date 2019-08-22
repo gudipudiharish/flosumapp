@@ -247,12 +247,11 @@ if(firstReq.commitType === 'branch'){
     var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
     var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
     var dateTime = date+' '+time;
-    if(labCommitMessage){
+  if(labCommitMessage != null){ 
       message = labCommitMessage;
-    }else{
-      message = branchName+' '+dateTime;
-    }
-    
+  }else{
+    message = branchName+' '+dateTime;
+  }
   
     var sendBody = {
       //dont forget to change it
