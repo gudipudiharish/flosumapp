@@ -379,15 +379,17 @@ if(firstReq.commitType === 'branch'){
           if (err) {
             console.log('err', err);
           } else {
-            sfRecords[0].flosum_git__oldMergeBranch__c = JSON.stringify(firstReq.oldMergeBranch);
-            sfRecords[0].flosum_git__mergeBranch__c = JSON.stringify(firstReq.mergeBranch);
-            conn.sobject("flosum_git__Branch_Git__c").update(
-              { Id: sfRecords[0].Id, flosum_git__run_merge__c: Date.now() },
-              function (err, rets) {
-                if (err) { return console.error(err); } else {
-                  console.log(rets);
-                }
-              });
+            //sfRecords[0].flosum_git__oldMergeBranch__c = JSON.stringify(firstReq.oldMergeBranch);
+            //sfRecords[0].flosum_git__mergeBranch__c = JSON.stringify(firstReq.mergeBranch);
+            if(firstReq.runMerge){
+              conn.sobject("flosum_git__Branch_Git__c").update(
+                { Id: sfRecords[0].Id, flosum_git__run_merge__c: Date.now() },
+                function (err, rets) {
+                  if (err) { return console.error(err); } else {
+                    console.log(rets);
+                  }
+                });
+            }
           }
         });
     });
@@ -418,6 +420,8 @@ if(firstReq.commitType === 'branch'){
       //console.log('path',path);
       path = path.replaceAll('/','%2F');
       path = path.replaceAll('.','%2E');
+      path = path.replaceAll(' ','%20');
+      
       //console.log('path',path);
       //httpGet('https://gitlab.com/api/v4/projects/'+ projId +'/repository/files/'+ path +'?ref='+branchName,tok);
       
