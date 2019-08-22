@@ -528,9 +528,9 @@ if(firstReq.commitType === 'branch'){
             }
           });
           if(responce.length === 100){
-            module.exports.checkComponentsIfExist(projId, branchName, objects, token,branchId,firstReq,pat,patuse,labCommitMessage,false,pathes,page+1);
+            module.exports.checkComponentsIfExist(projId, branchName, objects, tok,branchId,firstReq,pat,patuse,labCommitMessage,false,pathes,page+1);
           }else{
-            module.exports.checkComponentsIfExist(projId, branchName, objects, token,branchId,firstReq,pat,patuse,labCommitMessage,true,pathes,page+1);
+            module.exports.checkComponentsIfExist(projId, branchName, objects, tok,branchId,firstReq,pat,patuse,labCommitMessage,true,pathes,page+1);
           }
           console.log('pathes',pathes);
           //pathes.shift(); 
