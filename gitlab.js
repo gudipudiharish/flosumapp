@@ -367,6 +367,7 @@ if(firstReq.commitType === 'branch'){
     loginUrl : 'https://'+ process.env.env +'.salesforce.com'
   });
 
+  if(firstReq.runMerge){
   //conn.login('ibegei@forceoft.com.git', 'Veryeasy4473', function(err, userInfo) {
     conn.login(process.env.username, process.env.password, function(err, userInfo) {
       accesTok = conn.accessToken;
@@ -381,7 +382,7 @@ if(firstReq.commitType === 'branch'){
           } else {
             //sfRecords[0].flosum_git__oldMergeBranch__c = JSON.stringify(firstReq.oldMergeBranch);
             //sfRecords[0].flosum_git__mergeBranch__c = JSON.stringify(firstReq.mergeBranch);
-            if(firstReq.runMerge){
+            
               conn.sobject("flosum_git__Branch_Git__c").update(
                 { Id: sfRecords[0].Id, flosum_git__run_merge__c: Date.now() },
                 function (err, rets) {
@@ -389,10 +390,11 @@ if(firstReq.commitType === 'branch'){
                     console.log(rets);
                   }
                 });
-            }
+            
           }
         });
     });
+  }
       }else{
         console.log('ELSE 200');
         console.log('xmlHttp.responseText',xmlHttp.responseText);
