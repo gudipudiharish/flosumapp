@@ -360,18 +360,19 @@ if(firstReq.commitType === 'branch'){
           module.exports.fileHistoryGitLab(uniqueArray,tok,branchName,projId,branchId,pat,patuse);
   console.log('*****PUSHED*****');
 
-/*
+
 conn.sobject("flosum_git__Branch_Git__c").find({
-																								'flosum_git__Git_Branch_Id__c': { $like: o }
+																								'flosum_git__Git_Branch_Id__c': { $like: branchId }
 																							})
 																								.limit(1)
 																								.execute(function (err, sfRecords) {
 																									if (err) {
 																										console.log('err', err);
 																									} else {
-																										sfRecords[0].flosum_git__Github__c = resp;
+                                                    sfRecords[0].flosum_git__oldMergeBranch__c = 'qwe';
+                                                    sfRecords[0].flosum_git__mergeBranch__c = 'qwe';
 																										conn.sobject("flosum_git__Branch_Git__c").update(
-																											{ Id: sfRecords[0].Id, flosum_git__Github__c: sfRecords[0].flosum_git__Github__c },
+																											{ Id: sfRecords[0].Id, flosum_git__oldMergeBranch__c: sfRecords[0].flosum_git__oldMergeBranch__c,flosum_git__mergeBranch__c: sfRecords[0].flosum_git__mergeBranch__c },
 																											function (err, rets) {
 																												if (err) { return console.error(err); } else {
 																													console.log(rets);
@@ -380,7 +381,7 @@ conn.sobject("flosum_git__Branch_Git__c").find({
 																											});
 																									}
 																								});
-*/
+
 
 
       }else{
