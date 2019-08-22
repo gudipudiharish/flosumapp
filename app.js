@@ -626,7 +626,7 @@ app.post('/dataForUpdateGitLab', function(req, res) {
 												'/repository/files/' +
 												path +
 												'?ref=' +
-												branchName,
+												branchName,null,
 											branchWithProjId.get(brId).pat,true
 										)
 									);
