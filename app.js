@@ -685,7 +685,7 @@ app.post('/dataForUpdateGitLab', function(req, res) {
 														length += 1;
 													});
 												});
-												//console.log('length',length);
+												console.log('length',length);
 												var itemsList = [];
 												let ii = 0;
 												console.log(691);
