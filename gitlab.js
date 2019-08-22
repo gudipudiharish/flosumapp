@@ -232,10 +232,12 @@ commitToGitlab: function(projId, branchName, objects, token,branchId,firstReq,pa
 
 if(firstReq.commitType === 'branch'){
     console.log('firstReq.commitType ----->',firstReq.commitType);
-    module.exports.checkComponentsIfExist(projId, branchName, objects, token,branchId,firstReq,pat,patuse,labCommitMessage);
+    var pathes = [];
+    module.exports.checkComponentsIfExist(projId, branchName, objects, token,branchId,firstReq,pat,patuse,labCommitMessage,false,pathes,1);
 }else if(firstReq.commitType === 'repo'){
   console.log('firstReq.commitType ----->',firstReq.commitType);
-    module.exports.checkComponentsIfExist(projId, 'master', objects, token,branchId,firstReq,pat,patuse,labCommitMessage); 
+  var pathes = [];
+    module.exports.checkComponentsIfExist(projId, 'master', objects, token,branchId,firstReq,pat,patuse,labCommitMessage,false,pathes,1); 
 }
 },
 
@@ -483,8 +485,11 @@ if(firstReq.commitType === 'branch'){
     });
   },
 
-  checkComponentsIfExist:function(projId, branchName, objects, tok,branchId,firstReq,pat,patuse, labCommitMessage){
-    var pathes = [];
+  checkComponentsIfExist:function(projId, branchName, objects, tok,branchId,firstReq,pat,patuse, labCommitMessage,go,pathes,page){
+    if(go){
+      module.exports.bodyForUpdate(projId, branchName, objects, tok,branchId,firstReq,pat,patuse, labCommitMessage, pathes);
+    }else{
+      
     var responce;
     console.log('In checkComponentsIfExist');
     console.log('projId --> ',projId);
@@ -492,13 +497,14 @@ if(firstReq.commitType === 'branch'){
     var xmlHttp = new XMLHttpRequest();
     var url;
     if(patuse){
-      url = 'https://gitlab.com/api/v4/projects/' + projId + '/repository/tree?ref='+branchName+'&recursive=true&per_page=100';
+        url = `https://gitlab.com/api/v4/projects/${projId}/repository/tree?ref=${branchName}&recursive=true&per_page=100&page=${page}`;
       xmlHttp.open("GET", url, true);
       xmlHttp.setRequestHeader('PRIVATE-TOKEN', pat);
       console.log('PRIVATE-TOKEN');
     }else{
       console.log('access_token');
-      url = 'https://gitlab.com/api/v4/projects/' + projId + '/repository/tree?access_token=' + tok+'&ref='+branchName+'&recursive=true&per_page=100';
+      url = `https://gitlab.com/api/v4/projects/${projId}/repository/tree?access_token=${tok}&ref=${branchName}&recursive=true&per_page=100&page=${page}`;
+      //url = 'https://gitlab.com/api/v4/projects/' + projId + '/repository/tree?access_token=' + tok+'&ref='+branchName+'&recursive=true&per_page=100';
       xmlHttp.open("GET", url, true);
       
     }
@@ -521,6 +527,11 @@ if(firstReq.commitType === 'branch'){
             }            
             }
           });
+          if(responce.length === 100){
+            module.exports.checkComponentsIfExist(projId, branchName, objects, token,branchId,firstReq,pat,patuse,labCommitMessage,false,pathes,page+1);
+          }else{
+            module.exports.checkComponentsIfExist(projId, branchName, objects, token,branchId,firstReq,pat,patuse,labCommitMessage,true,pathes,page+1);
+          }
           console.log('pathes',pathes);
           //pathes.shift(); 
           //console.log('pathes',pathes);
@@ -528,7 +539,6 @@ if(firstReq.commitType === 'branch'){
          // synccc = false;
         //  module.exports.fileHistoryGitLab(uniqueArray,tok,branchName,projId,branchId);
   //console.log('*****PUSHED*****');
-  module.exports.bodyForUpdate(projId, branchName, objects, tok,branchId,firstReq,pat,patuse, labCommitMessage, pathes);
 
       }else{
         console.log('xmlHttp.responseText',xmlHttp.responseText);
@@ -536,6 +546,7 @@ if(firstReq.commitType === 'branch'){
   }
     xmlHttp.send();
   }
+    }
   
         
 };
