@@ -583,33 +583,32 @@ app.post('/dataForUpdateGitLab', function(req, res) {
 
 
 
-						Array.from(repos).forEach(function(repo, repIndex, repArray) {
-							let branch2 = {
-								branchId: repo,
-								commitType: 'repo'
-							};
-			
-							let branch222 = {
-								branchId: JSON.stringify(branch2)
-							};
-							forAll
-								.httpCallSF(
-									instanceUrl + '/services/apexrest/flosum_git/gitLab',
-									'POST',
-									branch222,
-									accesTok
-								)
-								.then((resp) => {
-									let proj = parser.parse(resp);
-									proj = JSON.parse(proj);
-									proj.branchId = repo;
-									repoWithProjId.set(repo, proj);
-									console.log('repoWithProjId',repoWithProjId);
-								});
-						});
-
-
-
+						if(repos.length != 0){
+							Array.from(repos).forEach(function(repo, repIndex, repArray) {
+								let branch2 = {
+									branchId: repo,
+									commitType: 'repo'
+								};
+				
+								let branch222 = {
+									branchId: JSON.stringify(branch2)
+								};
+								forAll
+									.httpCallSF(
+										instanceUrl + '/services/apexrest/flosum_git/gitLab',
+										'POST',
+										branch222,
+										accesTok
+									)
+									.then((resp) => {
+										let proj = parser.parse(resp);
+										proj = JSON.parse(proj);
+										proj.branchId = repo;
+										repoWithProjId.set(repo, proj);
+										console.log('repoWithProjId',repoWithProjId);
+									});
+							});
+							
 						conn.sobject('Flosum__Repository__c').retrieve(Array.from(repos), function(err, accounts) {
 							if (err) {
 								synccc = false;
@@ -935,6 +934,10 @@ app.post('/dataForUpdateGitLab', function(req, res) {
 								});								
 							}, 10000);
 						});
+
+						}
+
+
 
 
 

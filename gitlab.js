@@ -359,6 +359,30 @@ if(firstReq.commitType === 'branch'){
           synccc = false;
           module.exports.fileHistoryGitLab(uniqueArray,tok,branchName,projId,branchId,pat,patuse);
   console.log('*****PUSHED*****');
+
+/*
+conn.sobject("flosum_git__Branch_Git__c").find({
+																								'flosum_git__Git_Branch_Id__c': { $like: o }
+																							})
+																								.limit(1)
+																								.execute(function (err, sfRecords) {
+																									if (err) {
+																										console.log('err', err);
+																									} else {
+																										sfRecords[0].flosum_git__Github__c = resp;
+																										conn.sobject("flosum_git__Branch_Git__c").update(
+																											{ Id: sfRecords[0].Id, flosum_git__Github__c: sfRecords[0].flosum_git__Github__c },
+																											function (err, rets) {
+																												if (err) { return console.error(err); } else {
+																													console.log(rets);
+																												}
+
+																											});
+																									}
+																								});
+*/
+
+
       }else{
         console.log('ELSE 200');
         console.log('xmlHttp.responseText',xmlHttp.responseText);
