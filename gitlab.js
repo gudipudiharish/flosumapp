@@ -324,15 +324,15 @@ if(firstReq.commitType === 'branch'){
 
     });
     if(firstReq.commitType === 'branch'){
-      module.exports.sendFiles(projId, sendBody, tok,uniqueArray,branchName,branchId,pat,patuse); //////////////cal method sendfiles
+      module.exports.sendFiles(projId, sendBody, tok,uniqueArray,branchName,branchId,pat,patuse,firstReq); //////////////cal method sendfiles
     }else if(firstReq.commitType === 'repo'){
-      module.exports.sendFiles(projId, sendBody, tok,uniqueArray,'master',branchId,pat,patuse); //////////////cal method sendfiles
+      module.exports.sendFiles(projId, sendBody, tok,uniqueArray,'master',branchId,pat,patuse,firstReq); //////////////cal method sendfiles
     }
     
   
   },
   
-   sendFiles:function (projId, sendBody, tok,uniqueArray,branchName,branchId,pat,patuse) {
+   sendFiles:function (projId, sendBody, tok,uniqueArray,branchName,branchId,pat,patuse,firstReq) {
     console.log('In sendFiles');
     var xmlHttp = new XMLHttpRequest();
     var url;
@@ -377,8 +377,8 @@ if(firstReq.commitType === 'branch'){
           if (err) {
             console.log('err', err);
           } else {
-            sfRecords[0].flosum_git__oldMergeBranch__c = 'qwe';
-            sfRecords[0].flosum_git__mergeBranch__c = 'qwe';
+            sfRecords[0].flosum_git__oldMergeBranch__c = firstReq.oldMergeBranch;
+            sfRecords[0].flosum_git__mergeBranch__c = firstReq.mergeBranch;
             conn.sobject("flosum_git__Branch_Git__c").update(
               { Id: sfRecords[0].Id, flosum_git__oldMergeBranch__c: sfRecords[0].flosum_git__oldMergeBranch__c,flosum_git__mergeBranch__c: sfRecords[0].flosum_git__mergeBranch__c },
               function (err, rets) {

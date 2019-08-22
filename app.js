@@ -53,22 +53,10 @@ var instanceUrl;
 var sf = require('node-salesforce');
 
 var nodemailer = require('nodemailer');
-var smtpTransport = require('nodemailer-smtp-transport');
 var xoauth2 = require('xoauth2');
 var events = require('events');
 var check = 1;
 var events = new events.EventEmitter();
-var smtpTransport = nodemailer.createTransport(
-	smtpTransport({
-		service: 'gmail',
-		auth: {
-			xoauth2: xoauth2.createXOAuth2Generator({
-				user: 'odemskyi@peeklogic.com',
-				pass: 'Veryeasy4473'
-			})
-		}
-	})
-);
 
 var conn = new sf.Connection({
 	// you can change loginUrl to connect to sandbox or prerelease env.
