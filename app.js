@@ -532,7 +532,7 @@ app.post('/dataForUpdateGitLab', function(req, res) {
 					})
 					.then(() => {
 						records = records.filter(function(item) {
-							// console.log(item.Id);
+							console.log('item',item);
 							if (item.flosum_git__GitLab__c != null) {
 								if(item.flosum_git__Branch_Id__c){
 										branches.add(item.flosum_git__Branch_Id__c);
