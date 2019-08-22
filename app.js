@@ -1500,6 +1500,7 @@ app.post('/commit', function(req, res) {
 		}
 	}
 	else if (req.body.mode === 'callService') {
+		console.log('req',req.body);
 		console.log('----------callService---------------');
 		if (!branchMap.has(req.body.branchId)) {
 			var newCommit = new Items();
