@@ -582,7 +582,7 @@ app.post('/dataForUpdateGitLab', function(req, res) {
 
 
 
-
+						console.log('repos',repos);
 						if(repos.length != 0){
 							Array.from(repos).forEach(function(repo, repIndex, repArray) {
 								let branch2 = {
@@ -628,6 +628,7 @@ app.post('/dataForUpdateGitLab', function(req, res) {
 							setTimeout(function() {
 								var contents = [];
 								records.forEach(function(obj, index, array) {
+									if(obj.flosum_git__Repository__c){										
 									let brId = obj.flosum_git__Repository__c;
 									let branchName = 'master';
 									let path = obj.flosum_git__Path__c;
@@ -930,6 +931,7 @@ app.post('/dataForUpdateGitLab', function(req, res) {
 												if (err) console.log(err);
 												synccc = false;
 											});
+									}
 									}
 								});								
 							}, 10000);
