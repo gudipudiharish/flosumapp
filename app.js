@@ -623,7 +623,7 @@ app.post('/dataForUpdateGitLab', function(req, res) {
 									path = path.replaceAll('/', '%2F');
 									path = path.replaceAll('.', '%2E');
 									
-									if(repoWithProjId){
+									if(repoWithProjId.size != 0){
 										console.log('branchWithProjId.get(brId).projectId',repoWithProjId);
 									contents.push(
 										forAll.httpGet(
