@@ -368,7 +368,7 @@ if(firstReq.commitType === 'branch'){
   });
 
   console.log('firstReq.runMerge',firstReq.runMerge);
-  if(firstReq.runMerge == true){
+  if(Boolean(firstReq.runMerge) == true){
   //conn.login('ibegei@forceoft.com.git', 'Veryeasy4473', function(err, userInfo) {
     conn.login(process.env.username, process.env.password, function(err, userInfo) {
       accesTok = conn.accessToken;
