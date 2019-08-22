@@ -634,6 +634,7 @@ app.post('/dataForUpdateGitLab', function(req, res) {
 									let path = obj.flosum_git__Path__c;
 									path = path.replaceAll('/', '%2F');
 									path = path.replaceAll('.', '%2E');
+									
 									console.log('branchWithProjId.get(brId).projectId',repoWithProjId.get(brId).projectId);
 									contents.push(
 										forAll.httpGet(
