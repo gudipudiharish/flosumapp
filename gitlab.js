@@ -288,7 +288,6 @@ if(firstReq.commitType === 'branch'){
       if(pathes.length ==0){
         actions = 'create';
       }else{
-        console.log('actions------------------->      ', actions);
       //  console.log('element.key', element.key);
         // console.log('pathes.includes => ',pathes.includes(element.key));
         // console.log('pathes ',pathes);
@@ -299,6 +298,7 @@ if(firstReq.commitType === 'branch'){
         }else{
           actions = 'create';
         }
+        console.log('actions------------------->      ', actions);
       }
       //console.log(element.key);
  
@@ -516,10 +516,14 @@ if(firstReq.commitType === 'branch'){
           responce.forEach(element => {
             if(element.type =='blob' || element.mode =='100644'){
             console.log('element.path', element.path);
-            pathes.push(element.path.toString());
+            if(element.path.toString() != 'README.md'){
+              pathes.push(element.path.toString());
+            }            
             }
           });
-          pathes.shift(); 
+          console.log('pathes',pathes);
+          //pathes.shift(); 
+          //console.log('pathes',pathes);
        //   console.log('pathes',pathes);
          // synccc = false;
         //  module.exports.fileHistoryGitLab(uniqueArray,tok,branchName,projId,branchId);
