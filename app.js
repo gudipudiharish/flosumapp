@@ -509,17 +509,17 @@ app.post('/dataForUpdateGitLab', function(req, res) {
 	var changedRecords;
 	var itemsMap = new Map();
 	var branchWithProjId = new Map();
+	var repoWithProjId = new Map();
 	var componentsId = new Set();
 	let newMap = new Map();
 	var instance = 'AND flosum_git__gitlabSync__c = true';
 	console.log('username', username);
 	console.log('password', password);
 	var branches = new Set();
+	var repos = new Set();
 	console.log('dataForUpdateGitLab');
 
 	conn.login(process.env.username, process.env.password, function(err, userInfo) {
-		//  conn.login('ibegei@forceoft.com.git', 'Veryeasy4473', function(err, userInfo) {
-
 		accesTok = conn.accessToken;
 		instanceUrl = conn.instanceUrl;
 		if (err) {
@@ -546,13 +546,15 @@ app.post('/dataForUpdateGitLab', function(req, res) {
 						records = records.filter(function(item) {
 							// console.log(item.Id);
 							if (item.flosum_git__GitLab__c != null) {
-								branches.add(item.flosum_git__Branch_Id__c);
-								return item;
+								if(item.flosum_git__Branch_Id__c){
+										branches.add(item.flosum_git__Branch_Id__c);
+									return item;
+								}else if(item.flosum_git__Repository__c){
+									repos.add(item.flosum_git__Repository__c);
+									return item;
+								}								
 							}
 						});
-
-						//console.log("total2 : " + records.length);
-						//console.log("total : " + records.length);
 						Array.from(branches).forEach(function(branch, brIndex, brArray) {
 							let branch2 = {
 								branchId: branch,
@@ -562,10 +564,6 @@ app.post('/dataForUpdateGitLab', function(req, res) {
 							let branch222 = {
 								branchId: JSON.stringify(branch2)
 							};
-							
-							// let branchO = {
-							// 	branchId: branch
-							// };
 							forAll
 								.httpCallSF(
 									instanceUrl + '/services/apexrest/flosum_git/gitLab',
@@ -574,10 +572,6 @@ app.post('/dataForUpdateGitLab', function(req, res) {
 									accesTok
 								)
 								.then((resp) => {
-									/*getCreds = parser.parse(resp);
-              token = JSON.parse(getCreds).token;
-              projId = JSON.parse(getCreds).projectId;
-							branchname = JSON.parse(getCreds).branchName;*/
 									let proj = parser.parse(resp);
 									proj = JSON.parse(proj);
 									proj.branchId = branch;
@@ -586,48 +580,70 @@ app.post('/dataForUpdateGitLab', function(req, res) {
 								});
 						});
 
-						conn.sobject('Flosum__Branch__c').retrieve(Array.from(branches), function(err, accounts) {
+
+
+
+						Array.from(repos).forEach(function(repo, repIndex, repArray) {
+							let branch2 = {
+								branchId: repo,
+								commitType: 'repo'
+							};
+			
+							let branch222 = {
+								branchId: JSON.stringify(branch2)
+							};
+							forAll
+								.httpCallSF(
+									instanceUrl + '/services/apexrest/flosum_git/gitLab',
+									'POST',
+									branch222,
+									accesTok
+								)
+								.then((resp) => {
+									let proj = parser.parse(resp);
+									proj = JSON.parse(proj);
+									proj.branchId = repo;
+									repoWithProjId.set(branch, proj);
+									console.log('repoWithProjId',repoWithProjId);
+								});
+						});
+
+
+
+						conn.sobject('Flosum__Repository__c').retrieve(Array.from(repos), function(err, accounts) {
 							if (err) {
 								synccc = false;
 								return console.error(err);
 							}
-							//console.log("BRANCHESS",accounts);
-
 							records.forEach(function(item, index, array) {
 								accounts.forEach(function(acc, i, ar) {
 									if (
-										item.flosum_git__Branch_Id__c === acc.Id ||
-										acc.Id.includes(item.flosum_git__Branch_Id__c)
+										item.flosum_git__Repository__c === acc.Id ||
+										acc.Id.includes(item.flosum_git__Repository__c)
 									) {
-										item.Flosum__Branch_Name__c = acc.Flosum__Branch_Name__c;
+										item.Flosum__Branch_Name__c = 'master';
 									}
 								});
 							});
-
 							var recordsWithResp = [];
-							//console.log('records',JSON.stringify(records));
 							setTimeout(function() {
-								//console.log('records',records);
-
 								var contents = [];
 								records.forEach(function(obj, index, array) {
-									//console.log('obj',obj);
-									let brId = obj.flosum_git__Branch_Id__c;
-									let branchName = obj.Flosum__Branch_Name__c;
+									let brId = obj.flosum_git__Repository__c;
+									let branchName = 'master';
 									let path = obj.flosum_git__Path__c;
-									//console.log('path',path);
 									path = path.replaceAll('/', '%2F');
 									path = path.replaceAll('.', '%2E');
-									console.log('branchWithProjId.get(brId).projectId',branchWithProjId.get(brId).projectId);
+									console.log('branchWithProjId.get(brId).projectId',repoWithProjId.get(brId).projectId);
 									contents.push(
 										forAll.httpGet(
 											'https://gitlab.com/api/v4/projects/' +
-												branchWithProjId.get(brId).projectId +
+											repoWithProjId.get(brId).projectId +
 												'/repository/files/' +
 												path +
 												'?ref=' +
 												branchName,null,
-											branchWithProjId.get(brId).pat,true
+												repoWithProjId.get(brId).pat,true
 										)
 									);
 									if (index === records.length - 1) {
@@ -655,10 +671,6 @@ app.post('/dataForUpdateGitLab', function(req, res) {
 												});
 											})
 											.then(() => {
-												/*console.log('changedRecords.length',changedRecords.length);
-                  console.log('changedRecords',changedRecords);
-                  console.log('componentsId',Array.from(componentsId));*/
-
 												changedRecords.forEach(function(record, index, array) {
 													if (itemsMap.get(record.flosum_git__Component__c) === undefined) {
 														itemsMap.set(record.flosum_git__Component__c, [
@@ -691,16 +703,13 @@ app.post('/dataForUpdateGitLab', function(req, res) {
 												console.log(691);
 												newMap.forEach(function(values, key) {
 													values.forEach(function(item, index, array) {
-														//itemsList.push(item);
-
-														let brId = item.flosum_git__Branch_Id__c;
-														let branchName = item.Flosum__Branch_Name__c;
+														let brId = item.flosum_git__Repository__c;
+														let branchName = 'master';
 														let path = item.flosum_git__Path__c;
-														//console.log('path',path);
 														path = path.replaceAll('/', '%2F');
 														path = path.replaceAll('.', '%2E');
 														console.log('https://gitlab.com/api/v4/projects/' +
-														branchWithProjId.get(brId).projectId +
+														repoWithProjId.get(brId).projectId +
 														'/repository/files/' +
 														path +
 														'?ref=' +
@@ -708,19 +717,18 @@ app.post('/dataForUpdateGitLab', function(req, res) {
 														itemsList.push(
 															forAll.httpGet(
 																'https://gitlab.com/api/v4/projects/' +
-																	branchWithProjId.get(brId).projectId +
+																repoWithProjId.get(brId).projectId +
 																	'/repository/files/' +
 																	path +
 																	'?ref=' +
 																	branchName,null,
-																branchWithProjId.get(brId).pat,true
+																	repoWithProjId.get(brId).pat,true
 															)
 														);
 														ii++;
 														if (ii === length) {
 															Promise.all(itemsList).then((contentValues) => {
 																var index = 0;
-																//console.log('contentValues',contentValues);
 																newMap.forEach(function(values, key) {
 																	values.forEach(function(item, index, array) {
 																		item.flosum_git__GitLab__c =
@@ -757,9 +765,8 @@ app.post('/dataForUpdateGitLab', function(req, res) {
 															history.flosum_git__Path__c = o.flosum_git__Path__c;
 															history.flosum_git__Component__c = component;
 															history.flosum_git__GitLab__c = o.flosum_git__GitLab__c;
-
-															history.flosum_git__Branch_Id__c =
-																o.flosum_git__Branch_Id__c;
+															history.flosum_git__Repository__c =
+																o.flosum_git__Repository__c;
 															GitHistoryArrTEst.push(history);
 															o.name = o.flosum_git__Path__c.split(
 																'app/main/default/'
@@ -790,7 +797,6 @@ app.post('/dataForUpdateGitLab', function(req, res) {
 																localName = o.name;
 																name.push(localName);
 															}
-
 															zip.file(
 																localName,
 																Buffer.from(content, 'base64').toString('ascii')
@@ -925,324 +931,342 @@ app.post('/dataForUpdateGitLab', function(req, res) {
 												synccc = false;
 											});
 									}
+								});								
+							}, 10000);
+						});
+
+
+
+
+
+
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+						conn.sobject('Flosum__Branch__c').retrieve(Array.from(branches), function(err, accounts) {
+							if (err) {
+								synccc = false;
+								return console.error(err);
+							}
+							records.forEach(function(item, index, array) {
+								accounts.forEach(function(acc, i, ar) {
+									if (
+										item.flosum_git__Branch_Id__c === acc.Id ||
+										acc.Id.includes(item.flosum_git__Branch_Id__c)
+									) {
+										item.Flosum__Branch_Name__c = acc.Flosum__Branch_Name__c;
+									}
 								});
-
-								return;
-								bitbucket
-									.getBitbucketFiles2(records, username, password, org)
-									.then((values) => {
-										values.forEach(function(val, index, array) {
-											let sfResp = JSON.parse(records[index].flosum_git__Bitbucket__c);
-											if (sfResp.commit.hash != JSON.parse(val).values[0].commit.hash) {
-												records[index].BitResp = JSON.parse(val).values[0];
-											}
-										});
-									})
-									.then(() => {
-										changedRecords = records.filter(function(item) {
-											if (item.BitResp != null || item.BitResp != undefined) {
-												return item;
-											}
-										});
-									})
-									.then(() => {
-										changedRecords.forEach(function(record, index, array) {
-											if (itemsMap.get(record.flosum_git__Component__c) === undefined) {
-												itemsMap.set(record.flosum_git__Component__c, [
-													record
-												]);
-											}
-											else {
-												let arr = itemsMap.get(record.flosum_git__Component__c);
-												arr.push(record);
-												itemsMap.set(record.flosum_git__Component__c, arr);
-											}
-
-											if (index === changedRecords.length - 1) {
-												records.forEach(function(rec, recIndex, recArray) {
-													if (itemsMap.get(rec.flosum_git__Component__c) != undefined) {
-														let exist = false;
-														let arr = itemsMap.get(rec.flosum_git__Component__c);
-														arr.forEach(function(arRecord, arIndex, arrArray) {
-															if (
-																arRecord.flosum_git__Path__c === rec.flosum_git__Path__c
-															) {
-																exist = true;
-															}
-														});
-														if (!exist) {
-															arr.push(rec);
-															itemsMap.set(rec.flosum_git__Component__c, arr);
-														}
+							});
+							var recordsWithResp = [];
+							setTimeout(function() {
+								var contents = [];
+								records.forEach(function(obj, index, array) {
+									let brId = obj.flosum_git__Branch_Id__c;
+									let branchName = obj.Flosum__Branch_Name__c;
+									let path = obj.flosum_git__Path__c;
+									path = path.replaceAll('/', '%2F');
+									path = path.replaceAll('.', '%2E');
+									console.log('branchWithProjId.get(brId).projectId',branchWithProjId.get(brId).projectId);
+									contents.push(
+										forAll.httpGet(
+											'https://gitlab.com/api/v4/projects/' +
+												branchWithProjId.get(brId).projectId +
+												'/repository/files/' +
+												path +
+												'?ref=' +
+												branchName,null,
+											branchWithProjId.get(brId).pat,true
+										)
+									);
+									if (index === records.length - 1) {
+										Promise.all(contents)
+											.then((values) => {
+												//console.log('values',values);
+												values.forEach(function(val, index, array) {
+													let sfResp = JSON.parse(records[index].flosum_git__GitLab__c);
+													if (sfResp.content_sha256 != JSON.parse(val).content_sha256) {
+														let resp = JSON.parse(val);
+														delete resp.content;
+														records[index].flosum_git__GitLab__c = resp;
+														componentsId.add(records[index].flosum_git__Component__c);
 													}
 												});
-											}
-										});
-									})
-									.then(() => {
-										//console.log('itemsMap',itemsMap);
-										var itemsList = [];
-										itemsMap.forEach(function(values, key) {
-											values.forEach(function(item, index, array) {
-												//itemsList.push(item);
-												if (item.BitResp === undefined) {
-													itemsList.push(
-														parser.parse(item.flosum_git__Bitbucket__c).links.self.href
-													);
-												}
-												else {
-													itemsList.push(item.BitResp.links.self.href);
-												}
-											});
-										});
-										console.log(itemsList);
-										let contents = [];
-										let auth = 'Basic ';
-										let tok = username + ':' + password;
-										tok = Buffer.from(tok).toString('base64');
-										auth = auth + tok;
-
-										itemsList.forEach(function(o, i, a) {
-											contents.push(httpGet(o, auth));
-											if (i === itemsList.length - 1) {
-												Promise.all(contents)
-													.then((contentValues) => {
-														var index = 0;
-														console.log(contentValues);
-														itemsMap.forEach(function(values, key) {
-															values.forEach(function(item, index, array) {
-																item.content = contentValues[index];
-																index++;
+											})
+											.then(() => {
+												changedRecords = records.filter(function(item) {
+													if (
+														item.flosum_git__GitLab__c != null ||
+														item.flosum_git__GitLab__c != undefined
+													) {
+														return item;
+													}
+												});
+											})
+											.then(() => {
+												changedRecords.forEach(function(record, index, array) {
+													if (itemsMap.get(record.flosum_git__Component__c) === undefined) {
+														itemsMap.set(record.flosum_git__Component__c, [
+															record
+														]);
+													}
+													else {
+														let arr = itemsMap.get(record.flosum_git__Component__c);
+														arr.push(record);
+														itemsMap.set(record.flosum_git__Component__c, arr);
+													}
+												});
+											})
+											.then(() => {
+												Array.from(componentsId).forEach(function(o, i, a) {
+													newMap.set(o, itemsMap.get(o));
+												});
+											})
+											.then(() => {
+												//console.log('itemsMap',itemsMap);
+												let length = 0;
+												newMap.forEach(function(values, key) {
+													values.forEach(function(item, index, array) {
+														length += 1;
+													});
+												});
+												console.log('length',length);
+												var itemsList = [];
+												let ii = 0;
+												console.log(691);
+												newMap.forEach(function(values, key) {
+													values.forEach(function(item, index, array) {
+														let brId = item.flosum_git__Branch_Id__c;
+														let branchName = item.Flosum__Branch_Name__c;
+														let path = item.flosum_git__Path__c;
+														path = path.replaceAll('/', '%2F');
+														path = path.replaceAll('.', '%2E');
+														console.log('https://gitlab.com/api/v4/projects/' +
+														branchWithProjId.get(brId).projectId +
+														'/repository/files/' +
+														path +
+														'?ref=' +
+														branchName);
+														itemsList.push(
+															forAll.httpGet(
+																'https://gitlab.com/api/v4/projects/' +
+																	branchWithProjId.get(brId).projectId +
+																	'/repository/files/' +
+																	path +
+																	'?ref=' +
+																	branchName,null,
+																branchWithProjId.get(brId).pat,true
+															)
+														);
+														ii++;
+														if (ii === length) {
+															Promise.all(itemsList).then((contentValues) => {
+																var index = 0;
+																newMap.forEach(function(values, key) {
+																	values.forEach(function(item, index, array) {
+																		item.flosum_git__GitLab__c =
+																			contentValues[index];
+																		index++;
+																	});
+																});
 															});
+														}
+													});
+												});
+											})
+											.then(() => {
+												setTimeout(function() {
+													let GitHistoryArr = [];
+													newMap.forEach(function(value, key) {
+														let GitHistoryArrTEst = [];
+														let zip = new JSZip();
+														let type;
+														let version;
+														let component;
+														let name = [];
+														let CRC32;
+														let history;
+														value.forEach(function(o, index, array) {
+															history = {};
+															let content = JSON.parse(
+																o.flosum_git__GitLab__c
+															).content.replaceAll(/\n$/, '');
+															let localName = '';
+															version = o.flosum_git__Component_Version__c + 1;
+															type = o.flosum_git__Component_type__c;
+															component = o.flosum_git__Component__c;
+															history.flosum_git__Path__c = o.flosum_git__Path__c;
+															history.flosum_git__Component__c = component;
+															history.flosum_git__GitLab__c = o.flosum_git__GitLab__c;
+															history.flosum_git__Branch_Id__c =
+																o.flosum_git__Branch_Id__c;
+															GitHistoryArrTEst.push(history);
+															o.name = o.flosum_git__Path__c.split(
+																'app/main/default/'
+															)[1];
+
+															if (type === 'CustomObject') {
+																let arr = o.name.split('/');
+																localName = arr[0] + '/' + arr[2];
+																name.push(localName);
+															}
+															else if (
+																type === 'CustomField' ||
+																type === 'ListView' ||
+																type === 'WebLink' ||
+																type === 'FieldSet' ||
+																type === 'BusinessProcess' ||
+																type === 'CompactLayout' ||
+																type === 'SharingReason' ||
+																type === 'ValidationRule' ||
+																type === 'RecordType'
+															) {
+																let arr = o.name.split('/');
+																let name1 = arr[0] + '/' + arr[3];
+																localName = name1.split('.')[0] + '.object';
+																name.push(name1.split('.')[0] + '.object');
+															}
+															else {
+																localName = o.name;
+																name.push(localName);
+															}
+															zip.file(
+																localName,
+																Buffer.from(content, 'base64').toString('ascii')
+															);
 														});
-													})
-													.then(() => {
-														let GitHistoryArr = [];
-														itemsMap.forEach(function(value, key) {
-															let GitHistoryArrTEst = [];
-															let zip = new JSZip();
-															let type;
-															let version;
-															let component;
-															let name = [];
-															let CRC32;
-															let history;
-															value.forEach(function(o, index, array) {
-																history = {};
-																let content = o.content.replaceAll(/\n$/, '');
-																let localName = '';
-																version = o.flosum_git__Component_Version__c + 1;
-																type = o.flosum_git__Component_type__c;
-																component = o.flosum_git__Component__c;
-																history.flosum_git__Path__c = o.flosum_git__Path__c;
-																history.flosum_git__Component__c = component;
-																if ((o.BitResp = !undefined)) {
-																	history.flosum_git__Bitbucket__c = o.BitResp;
+														zip.generateAsync({ type: 'base64' }).then(function(base64) {
+															var normalZip = new JSZip2();
+															var tempZip = new JSZip2(base64, { base64: true });
+															if (
+																(type === 'CustomObject' || value.length === 1) &&
+																type != 'AuraDefinitionBundle'
+															) {
+																var zipData = tempZip.files[name[0]].asBinary();
+																CRC32 = normalZip.crc32(zipData, 32);
+															}
+															else if (
+																(type === 'ApexClass' || value.length === 2) &&
+																type != 'AuraDefinitionBundle'
+															) {
+																var zipData = tempZip.files[
+
+																		name[0].includes('.xml') ? name[1] :
+																		name[0]
+																].asBinary();
+																var metaXMLData = tempZip.files[
+
+																		name[0].includes('.xml') ? name[0] :
+																		name[1]
+																].asBinary();
+																CRC32 =
+																	normalZip.crc32(zipData, 32) +
+																	' ' +
+																	normalZip.crc32(metaXMLData, 32);
+															}
+															else if (
+																type === 'AuraDefinitionBundle' ||
+																value.length > 2
+															) {
+																let mapCrc32 = {};
+																name.forEach(function(object, index, array) {
+																	var zipData = tempZip.files[object].asBinary();
+																	let crc = normalZip.crc32(zipData, 32);
+																	mapCrc32[object] = crc;
+																});
+																var keys = Object.keys(mapCrc32).sort();
+																if (keys.length > 0) CRC32 = mapCrc32[keys[0]];
+																for (var i = 1; i < keys.length; i++) {
+																	CRC32 = Math.round((mapCrc32[keys[i]] + CRC32) / 2);
 																}
-																else {
-																	history.flosum_git__Bitbucket__c =
-																		o.flosum_git__Bitbucket__c;
-																}
+															}
 
-																//history.flosum_git__Component_Version__c  = version;
-																history.flosum_git__Branch_Id__c =
-																	o.flosum_git__Branch_Id__c;
-																GitHistoryArrTEst.push(history);
-																o.name = o.flosum_git__Path__c.split(
-																	'app/main/default/'
-																)[1];
-
-																if (type === 'CustomObject') {
-																	let arr = o.name.split('/');
-																	localName = arr[0] + '/' + arr[2];
-																	name.push(localName);
-																}
-																else if (
-																	type === 'CustomField' ||
-																	type === 'ListView' ||
-																	type === 'WebLink' ||
-																	type === 'FieldSet' ||
-																	type === 'BusinessProcess' ||
-																	type === 'CompactLayout' ||
-																	type === 'SharingReason' ||
-																	type === 'ValidationRule' ||
-																	type === 'RecordType'
-																) {
-																	let arr = o.name.split('/');
-																	let name1 = arr[0] + '/' + arr[3];
-																	localName = name1.split('.')[0] + '.object';
-																	name.push(name1.split('.')[0] + '.object');
-																}
-																else {
-																	localName = o.name;
-																	name.push(localName);
-																}
-
-																/*let buff = new Buffer(content, 'base64');  
-                      let text = buff.toString('ascii');*/
-																zip.file(
-																	localName,
-																	Buffer.from(content, 'base64').toString('ascii')
-																);
-															});
-															zip
-																.generateAsync({ type: 'base64' })
-																.then(function(base64) {
-																	var normalZip = new JSZip2();
-																	var tempZip = new JSZip2(base64, { base64: true });
-																	if (
-																		(type === 'CustomObject' ||
-																			value.length === 1) &&
-																		type != 'AuraDefinitionBundle'
-																	) {
-																		var zipData = tempZip.files[name[0]].asBinary();
-																		CRC32 = normalZip.crc32(zipData, 32);
-																	}
-																	else if (
-																		(type === 'ApexClass' || value.length === 2) &&
-																		type != 'AuraDefinitionBundle'
-																	) {
-																		var zipData = tempZip.files[
-
-																				name[0].includes('.xml') ? name[1] :
-																				name[0]
-																		].asBinary();
-																		var metaXMLData = tempZip.files[
-
-																				name[0].includes('.xml') ? name[0] :
-																				name[1]
-																		].asBinary();
-																		CRC32 =
-																			normalZip.crc32(zipData, 32) +
-																			' ' +
-																			normalZip.crc32(metaXMLData, 32);
-																	}
-																	else if (
-																		type === 'AuraDefinitionBundle' ||
-																		value.length > 2
-																	) {
-																		let mapCrc32 = {};
-																		name.forEach(function(object, index, array) {
-																			var zipData = tempZip.files[
-																				object
-																			].asBinary();
-																			let crc = normalZip.crc32(zipData, 32);
-																			mapCrc32[object] = crc;
-																		});
-																		// mapCrc32 = {'aura/Test.cmp' : 12345634242, 'aura/Test.js' : 123456322334}; //fileName and crc code like above
-																		var keys = Object.keys(mapCrc32).sort();
-																		if (keys.length > 0) CRC32 = mapCrc32[keys[0]];
-																		for (var i = 1; i < keys.length; i++) {
-																			CRC32 = Math.round(
-																				(mapCrc32[keys[i]] + CRC32) / 2
-																			);
-																		}
-																	}
-
-																	let comhis = {
-																		Flosum__Component__c: component,
-																		Flosum__Version__c: version,
-																		Flosum__CRC32__c: CRC32
-																	};
-																	conn
-																		.sobject('Flosum__Component_History__c')
-																		.create(comhis, function(err, history) {
+															let comhis = {
+																Flosum__Component__c: component,
+																Flosum__Version__c: version,
+																Flosum__CRC32__c: CRC32
+															};
+															conn
+																.sobject('Flosum__Component_History__c')
+																.create(comhis, function(err, history) {
+																	if (!err) {
+																		conn.sobject('Attachment').create({
+																			ParentId: history.id,
+																			Name: type,
+																			Body: base64,
+																			ContentType: 'application/zip'
+																		}, function(err, uploadedAttachment) {
 																			if (!err) {
-																				conn.sobject('Attachment').create({
-																					ParentId: history.id,
-																					Name: type,
-																					Body: base64,
-																					ContentType: 'application/zip'
-																				}, function(err, uploadedAttachment) {
-																					if (!err) {
-																						GitHistoryArrTEst.forEach(
-																							function(
-																								objMap,
-																								index,
-																								array
-																							) {
-																								objMap.flosum_git__Attachment_Id__c =
-																									uploadedAttachment.id;
-																								objMap.flosum_git__Component_History__c =
-																									history.id;
-																								objMap.flosum_git__Component_type__c = type;
-																							}
-																						);
-																						conn
-																							.sobject(
-																								'Flosum__Component__c'
-																							)
-																							.update(
-																								{
-																									Id: component,
-																									Flosum__Version__c: version,
-																									Flosum__CRC32__c: CRC32
-																								},
-																								function(err, ret) {
-																									if (
-																										err ||
-																										!ret.success
-																									) {
-																										return console.error(
-																											err,
-																											ret
-																										);
-																									}
-																									// ...
-																								}
-																							);
-																						conn
-																							.sobject(
-																								'flosum_git__History_Git__c'
-																							)
-																							.create(
-																								GitHistoryArrTEst,
-																								function(err, up) {
-																									console.log(
-																										'TEST222'
-																									);
-																									if (!err) {
-																										console.log(
-																											'UPPPP',
-																											up
-																										);
-																									}
-																									else {
-																										console.log(
-																											err
-																										);
-																										synccc = false;
-																									}
-																								}
-																							);
-																					}
-																					else {
-																						console.log(err);
-																						synccc = false;
-																					}
+																				GitHistoryArrTEst.forEach(function(
+																					objMap,
+																					index,
+																					array
+																				) {
+																					objMap.flosum_git__Attachment_Id__c =
+																						uploadedAttachment.id;
+																					objMap.flosum_git__Component_History__c =
+																						history.id;
+																					objMap.flosum_git__Component_type__c = type;
 																				});
+																				conn
+																					.sobject('Flosum__Component__c')
+																					.update(
+																						{
+																							Id: component,
+																							Flosum__Version__c: version,
+																							Flosum__CRC32__c: CRC32
+																						},
+																						function(err, ret) {
+																							if (err || !ret.success) {
+																								return console.error(
+																									err,
+																									ret
+																								);
+																							}
+																							// ...
+																						}
+																					);
+																				conn
+																					.sobject(
+																						'flosum_git__History_Git__c'
+																					)
+																					.create(GitHistoryArrTEst, function(
+																						err,
+																						up
+																					) {
+																						console.log('TEST222');
+																						if (!err) {
+																							console.log('UPPPP', up);
+																						}
+																						else {
+																							console.log(err);
+																							synccc = false;
+																						}
+																					});
 																			}
 																			else {
-																				console.log('err', err);
+																				console.log(err);
 																				synccc = false;
 																			}
 																		});
-
-																	//var base64data = new Buffer(filedata).toString('base64');
+																	}
+																	else {
+																		console.log('err', err);
+																		synccc = false;
+																	}
 																});
 														});
 													});
-											}
-										});
-
-										/*getBitbucketFiles2(itemsList,username,password,org).then( values => {
-              console.log(values);
-            });*/
-									})
-									.catch((err) => {
-										if (err) console.log(err);
-										synccc = false;
-									});
+												}, 10000);
+											})
+											.catch((err) => {
+												if (err) console.log(err);
+												synccc = false;
+											});
+									}
+								});								
 							}, 10000);
 						});
 					});
