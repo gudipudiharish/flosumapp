@@ -623,7 +623,8 @@ app.post('/dataForUpdateGitLab', function(req, res) {
 									path = path.replaceAll('/', '%2F');
 									path = path.replaceAll('.', '%2E');
 									
-									console.log('branchWithProjId.get(brId).projectId',repoWithProjId);
+									if(repoWithProjId){
+										console.log('branchWithProjId.get(brId).projectId',repoWithProjId);
 									contents.push(
 										forAll.httpGet(
 											'https://gitlab.com/api/v4/projects/' +
@@ -919,6 +920,7 @@ app.post('/dataForUpdateGitLab', function(req, res) {
 												if (err) console.log(err);
 												synccc = false;
 											});
+									}
 									}
 									}
 								});								
