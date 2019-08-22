@@ -564,7 +564,7 @@ app.post('/dataForUpdateGitLab', function(req, res) {
 									proj = JSON.parse(proj);
 									proj.branchId = branch;
 									branchWithProjId.set(branch, proj);
-									console.log('branchWithProjId',branchWithProjId);
+							//		console.log('branchWithProjId',branchWithProjId);
 								});
 						});
 
@@ -593,7 +593,7 @@ app.post('/dataForUpdateGitLab', function(req, res) {
 										proj = JSON.parse(proj);
 										proj.branchId = repo;
 										repoWithProjId.set(repo, proj);
-										console.log('repoWithProjId',repoWithProjId);
+								//		console.log('repoWithProjId',repoWithProjId);
 									});
 							});
 							
@@ -965,7 +965,7 @@ app.post('/dataForUpdateGitLab', function(req, res) {
 									let path = obj.flosum_git__Path__c;
 									path = path.replaceAll('/', '%2F');
 									path = path.replaceAll('.', '%2E');
-									console.log('branchWithProjId.get(brId).projectId',branchWithProjId.get(brId).projectId);
+								//	console.log('branchWithProjId.get(brId).projectId',branchWithProjId.get(brId).projectId);
 									contents.push(
 										forAll.httpGet(
 											'https://gitlab.com/api/v4/projects/' +
@@ -1302,7 +1302,7 @@ app.post('/dataForUpdate', function(req, res) {
 		console.log(
 			'FINISH------------------------------------------------------------------------------------------------------------------------------------------------'
 		);
-		console.log('Object.keys(localFilesMap)', localFilesMap.keys());
+//		console.log('Object.keys(localFilesMap)', localFilesMap.keys());
 		console.log('localFilesMap.has("a011i0000097T7XAAU")', localFilesMap.has('a011i0000097T7XAAU'));
 		const badArr = [];
 		const uniqueArray = localFilesMap.get('a011i0000097T7XAAU').filter((thing, index) => {
@@ -1324,15 +1324,15 @@ app.post('/dataForUpdate', function(req, res) {
 		});
 		console.log('uniqueArray', uniqueArray.length);
 		console.log('badArr.length', badArr.length);
-		console.log('badArr', badArr);
+//		console.log('badArr', badArr);
 		console.log('ALLELL');
 		let allGitObjects = [];
 		let ind = -1;
 		let keys = Object.keys(reposByBranchId).length;
-		console.log('keys', keys);
-		console.log('reposByBranchId', reposByBranchId);
+	//	console.log('keys', keys);
+	//	console.log('reposByBranchId', reposByBranchId);
 		Object.keys(reposByBranchId).forEach(function(key, item) {
-			console.log('reposByBranchId[key]', reposByBranchId[key]);
+	//		console.log('reposByBranchId[key]', reposByBranchId[key]);
 			let tok = gitOrgSettings.flosum_git__Git_User_Name__c + ':' + gitOrgSettings.flosum_git__Git_Password__c;
 			tok = Buffer.from(tok).toString('base64');
 			var tokk = 'Basic ' + tok;
@@ -1451,10 +1451,10 @@ app.post('/commit', function(req, res) {
 				for (let hisKey of historiesKeys) {
 					branchMap.get(req.body.data.branch.Id).histories[hisKey] = histories[hisKey];
 				}
-				console.log(
-					'Object.values(branchMap.get(req.body.data.branch.Id).components).length',
-					Object.values(branchMap.get(req.body.data.branch.Id).components).length
-				);
+			//	console.log(
+				//	'Object.values(branchMap.get(req.body.data.branch.Id).components).length',
+				//	Object.values(branchMap.get(req.body.data.branch.Id).components).length
+			//	);
 			}
 			else {
 				console.log('NOT FOUND IN MAP');
@@ -1616,10 +1616,10 @@ app.post('/commit', function(req, res) {
 				}
 			});
 			branchMap.get(req.body.branchId).data.repo.Name = repository;
-			console.log(
-				'branchMap.get(req.body.branchId).data.branch.Flosum__Repository__r.Name',
-				branchMap.get(req.body.branchId)
-			);
+		//	console.log(
+		//		'branchMap.get(req.body.branchId).data.branch.Flosum__Repository__r.Name',
+		//		branchMap.get(req.body.branchId)
+		//	);
 			setTimeout(function() {
 				if (branchMap.get(req.body.branchId).sync === 'GitHub') {
 					git.gitCommit(req, branchMap.get(req.body.branchId), branchMap.get(req.body.branchId).firstReq);
@@ -1632,7 +1632,7 @@ app.post('/commit', function(req, res) {
 							branchMap.get(req.body.branchId),
 							branchMap.get(req.body.branchId).firstReq
 						);
-						console.log('branchMap.get(req.body.branchId),',branchMap.get(req.body.branchId));
+					//	console.log('branchMap.get(req.body.branchId),',branchMap.get(req.body.branchId));
 						branchMap.delete(req.body.branchId);
 					}, 10000);
 				}

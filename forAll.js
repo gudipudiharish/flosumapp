@@ -110,7 +110,7 @@ module.exports = {
           zipp.loadAsync(item.attachment.Body.substring(1, item.attachment.Body.length-1), { base64: true }).then(function (zip) {
             let i = 0;
           zip.forEach(function (relativePath, file) {
-            console.log('relativePath',relativePath);
+         //   console.log('relativePath',relativePath);
             if(relativePath){
             if(item.component.Flosum__Component_Type__c != 'CustomField' && item.component.Flosum__Component_Type__c != 'WebLink' && item.component.Flosum__Component_Type__c != 'ListView' && item.component.Flosum__Component_Type__c != 'FieldSet' && item.component.Flosum__Component_Type__c != 'BusinessProcess' && item.component.Flosum__Component_Type__c != 'CompactLayout' && item.component.Flosum__Component_Type__c != 'SharingReason' && item.component.Flosum__Component_Type__c != 'ValidationRule' && item.component.Flosum__Component_Type__c != 'RecordType'){
                 if(item.component.Flosum__Component_Type__c != 'CustomObject'){
@@ -319,7 +319,7 @@ module.exports = {
                             resolve(JSON.parse(JSON.stringify(xmlHttp.responseText)));
                         }else{
                           console.log('urlreq',urlreq);
-                          console.log('JSON.parse(JSON.stringify(xmlHttp.responseText))',JSON.parse(JSON.stringify(xmlHttp.responseText)));
+                  //        console.log('JSON.parse(JSON.stringify(xmlHttp.responseText))',JSON.parse(JSON.stringify(xmlHttp.responseText)));
                             reject(JSON.parse(JSON.stringify(xmlHttp.responseText)));
                         }
                     }
