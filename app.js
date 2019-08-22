@@ -603,7 +603,7 @@ app.post('/dataForUpdateGitLab', function(req, res) {
 									let proj = parser.parse(resp);
 									proj = JSON.parse(proj);
 									proj.branchId = repo;
-									repoWithProjId.set(branch, proj);
+									repoWithProjId.set(repo, proj);
 									console.log('repoWithProjId',repoWithProjId);
 								});
 						});
