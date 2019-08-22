@@ -418,9 +418,11 @@ if(firstReq.commitType === 'branch'){
     console.log('branchName',branchName);
       let path = obj.key;
       //console.log('path',path);
+      path = path.replaceAll('%','%25');
       path = path.replaceAll('/','%2F');
       path = path.replaceAll('.','%2E');
       path = path.replaceAll(' ','%20');
+      
       
       //console.log('path',path);
       //httpGet('https://gitlab.com/api/v4/projects/'+ projId +'/repository/files/'+ path +'?ref='+branchName,tok);
