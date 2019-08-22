@@ -318,7 +318,7 @@ module.exports = {
                           //console.log('JSON.parse(JSON.stringify(xmlHttp.responseText))',JSON.parse(JSON.stringify(xmlHttp.responseText)));
                             resolve(JSON.parse(JSON.stringify(xmlHttp.responseText)));
                         }else{
-                          console.log('urlreq',urlreq);
+                          console.log('ERRRROOOOOOOOOOOOORRRurlreq',urlreq);
                   //        console.log('JSON.parse(JSON.stringify(xmlHttp.responseText))',JSON.parse(JSON.stringify(xmlHttp.responseText)));
                             reject(JSON.parse(JSON.stringify(xmlHttp.responseText)));
                         }
