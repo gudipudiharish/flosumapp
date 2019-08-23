@@ -1116,6 +1116,7 @@ app.post('/dataForUpdateGitLab', function(req, res) {
 															console.log('localName', localName);
 															console.log('ZIIIIIIIIIIIIIIIIIIIIP',zip);
 														});
+														zip.remove('classes');
 														zip.generateAsync({ type: 'base64' }).then(function(base64) {
 															var normalZip = new JSZip2();
 															var tempZip = new JSZip2(base64, { base64: true });
