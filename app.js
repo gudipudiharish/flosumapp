@@ -1234,9 +1234,9 @@ app.post('/dataForUpdateGitLab', function(req, res) {
 																		synccc = false;
 																	}
 																});
-																console.log('tempZip', tempZip.dir);
+																console.log('tempZip', tempZip);
 
-															console.log('normalZip', normalZip.dir);
+															console.log('normalZip', normalZip);
 
 
 														});
