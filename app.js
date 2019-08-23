@@ -494,12 +494,17 @@ app.post('/dataForUpdateGitLab', function(req, res) {
 	var username = JSON.parse(req.body.gitLab).flosum_git__Git_User_Name__c;
 	var password = JSON.parse(req.body.gitLab).flosum_git__Git_Password__c;
 	var records = [];
+	var repoRecords = [];
 	var changedRecords;
+	var repoChangedRecords;
 	var itemsMap = new Map();
+	var repoItemsMap = new Map();
 	var branchWithProjId = new Map();
 	var repoWithProjId = new Map();
 	var componentsId = new Set();
+	var repoComponentsId = new Set();
 	let newMap = new Map();
+	let repoNewMap = new Map();
 	var instance = 'AND flosum_git__gitlabSync__c = true';
 	console.log('username', username);
 	console.log('password', password);
@@ -525,13 +530,13 @@ app.post('/dataForUpdateGitLab', function(req, res) {
 			else {
 				console.log('result', result.totalSize);
 				forAll
-					.getFilesForCompare(records, 0, result.totalSize, conn, instance)
+					.getFilesForCompare(repoRecords, 0, result.totalSize, conn, instance)
 					.then(() => {
-						console.log('records.length', records.length);
+						console.log('records.length', repoRecords.length);
 						console.log('END');
 					})
 					.then(() => {
-						records = records.filter(function(item) {
+						repoRecords = repoRecords.filter(function(item) {
 							if (item.flosum_git__GitLab__c != null) {
 								if(item.flosum_git__Branch_Id__c){
 									if(!item.flosum_git__Repository_Id__c){
@@ -604,7 +609,7 @@ app.post('/dataForUpdateGitLab', function(req, res) {
                 synccc = false;
                 return console.error(err);
               }
-              records.forEach(function(item, index, array) {
+              repoRecords.forEach(function(item, index, array) {
                 accounts.forEach(function(acc, i, ar) {
                   if (
                     item.flosum_git__Repository_Id__c === acc.Id ||
@@ -618,7 +623,7 @@ app.post('/dataForUpdateGitLab', function(req, res) {
               var recordsWithResp = [];
               setTimeout(function() {
                 var contents = [];
-                records.forEach(function(obj, index, array) {
+                repoRecords.forEach(function(obj, index, array) {
                   if(obj.flosum_git__Repository_Id__c){                    
                   let brId = obj.flosum_git__Repository_Id__c;
                   let branchName = 'master';
@@ -639,22 +644,22 @@ app.post('/dataForUpdateGitLab', function(req, res) {
                         repoWithProjId.get(brId).pat,true
                     )
                   );
-                  if (index === records.length - 1) {
+                  if (index === repoRecords.length - 1) {
                     Promise.all(contents)
                       .then((values) => {
                         //console.log('values',values);
                         values.forEach(function(val, index, array) {
-                          let sfResp = JSON.parse(records[index].flosum_git__GitLab__c);
+                          let sfResp = JSON.parse(repoRecords[index].flosum_git__GitLab__c);
                           if (sfResp.content_sha256 != JSON.parse(val).content_sha256) {
                             let resp = JSON.parse(val);
                             delete resp.content;
-                            records[index].flosum_git__GitLab__c = resp;
-                            componentsId.add(records[index].flosum_git__Component__c);
+                            repoRecords[index].flosum_git__GitLab__c = resp;
+                            repoComponentsId.add(repoRecords[index].flosum_git__Component__c);
                           }
                         });
                       })
                       .then(() => {
-                        changedRecords = records.filter(function(item) {
+                        repoChangedRecords = repoRecords.filter(function(item) {
                           if (
                             item.flosum_git__GitLab__c != null ||
                             item.flosum_git__GitLab__c != undefined
@@ -663,28 +668,28 @@ app.post('/dataForUpdateGitLab', function(req, res) {
                           }
                         });
                       }).then(() => {
-                        changedRecords.forEach(function(record, index, array) {
-                          if (itemsMap.get(record.flosum_git__Component__c) === undefined) {
-                            itemsMap.set(record.flosum_git__Component__c, [
+                        repoChangedRecords.forEach(function(record, index, array) {
+                          if (repoItemsMap.get(record.flosum_git__Component__c) === undefined) {
+                            repoItemsMap.set(record.flosum_git__Component__c, [
                               record
                             ]);
                           }
                           else {
-                            let arr = itemsMap.get(record.flosum_git__Component__c);
+                            let arr = repoItemsMap.get(record.flosum_git__Component__c);
                             arr.push(record);
-                            itemsMap.set(record.flosum_git__Component__c, arr);
+                            repoItemsMap.set(record.flosum_git__Component__c, arr);
                           }
                         });
                       })
                       .then(() => {
-                        Array.from(componentsId).forEach(function(o, i, a) {
-                          newMap.set(o, itemsMap.get(o));
+                        Array.from(repoComponentsId).forEach(function(o, i, a) {
+							repoNewMap.set(o, repoItemsMap.get(o));
                         });
                       })
                       .then(() => {
                         //console.log('itemsMap',itemsMap);
                         let length = 0;
-                        newMap.forEach(function(values, key) {
+                        repoNewMap.forEach(function(values, key) {
                           values.forEach(function(item, index, array) {
                             length += 1;
                           });
@@ -694,8 +699,8 @@ app.post('/dataForUpdateGitLab', function(req, res) {
                         let ii = 0;
 						console.log(691);
 						console.log('repoWithProjId',repoWithProjId);
-						console.log('newMap',newMap);
-                        newMap.forEach(function(values, key) {
+						console.log('repoNewMap',repoNewMap);
+                        repoNewMap.forEach(function(values, key) {
                           values.forEach(function(item, index, array) {
                             let brId = item.flosum_git__Repository_Id__c;
                             let branchName = 'master';
@@ -717,7 +722,7 @@ app.post('/dataForUpdateGitLab', function(req, res) {
                             if (ii === length) {
                               Promise.all(itemsList).then((contentValues) => {
                                 var index = 0;
-                                newMap.forEach(function(values, key) {
+                                repoNewMap.forEach(function(values, key) {
                                   values.forEach(function(item, index, array) {
                                     item.flosum_git__GitLab__c =
                                       contentValues[index];
@@ -732,7 +737,7 @@ app.post('/dataForUpdateGitLab', function(req, res) {
                       .then(() => {
                         setTimeout(function() {
                           let GitHistoryArr = [];
-                          newMap.forEach(function(value, key) {
+                          repoNewMap.forEach(function(value, key) {
                             let GitHistoryArrTEst = [];
                             let zip = new JSZip();
                             let type;
