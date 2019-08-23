@@ -436,7 +436,7 @@ app.post('/dataForUpdateBitbucket', function(req, res) {
 																									GitHistoryArrTEst,
 																									function(err, up) {
 																										console.log(
-																											'TEST222'
+																											'TEST222 first'
 																										);
 																										if (!err) {
 																											console.log(
@@ -1163,6 +1163,8 @@ app.post('/dataForUpdateGitLab', function(req, res) {
 																.create(comhis, function(err, history) {
 																	console.log(1198);
 																	if (!err) {
+																		console.log('conn!!!', conn);
+																		console.dir(conn);
 																		conn.sobject('Attachment').create({
 																			ParentId: history.id,
 																			Name: type,
