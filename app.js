@@ -1103,9 +1103,11 @@ app.post('/dataForUpdateGitLab', function(req, res) {
 																name.push(localName);
 															}
 															zip.file(
+																
 																localName,
 																Buffer.from(content, 'base64').toString('ascii')
 															);
+															console.log('localName', localName);
 														});
 														zip.generateAsync({ type: 'base64' }).then(function(base64) {
 															var normalZip = new JSZip2();
