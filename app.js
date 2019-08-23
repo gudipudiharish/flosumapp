@@ -532,7 +532,7 @@ app.post('/dataForUpdateGitLab', function(req, res) {
 					})
 					.then(() => {
 						records = records.filter(function(item) {
-							console.log('item.flosum_git__Repository_Id__c',!item.flosum_git__Repository_Id__c);
+							console.log('item.flosum_git__Repository_Id__c',item.flosum_git__Repository_Id__c);
 							console.log('item.flosum_git__Repository_Id__c != null',item.flosum_git__Repository_Id__c != null);
 							console.log('item.flosum_git__Repository_Id__c',item.flosum_git__Repository_Id__c != 'null');
 							console.log('============================================================');
