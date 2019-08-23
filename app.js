@@ -1111,19 +1111,22 @@ app.post('/dataForUpdateGitLab', function(req, res) {
 															}
 															zip.file(
 																localName,
-																Buffer.from(content, 'base64').toString('ascii')
+																Buffer.from(content, 'base64').toString('ascii'),
+																{
+																	createFolders: false
+																}
 															);
 															console.log('localName', localName);
 															console.log('ZIIIIIIIIIIIIIIIIIIIIP',zip);
 															
 														});
-														var tounzip = zipOld(zip, {base64:true});
-														for(var filenames in tounzip.files){
-															console.log('filenames = ', filenames);
-														}
+													//	var tounzip = zipOld(zip, {base64:true});
+													//	for(var filenames in tounzip.files){
+													//		console.log('filenames = ', filenames);
+													//	}
 													console.log('this is zip', zip);
 										
-														zip.generateAsync({ type: 'binarystring ' }).then(function(base64) {    ///////////generateAsync
+														zip.generateAsync({ type: 'base64' }).then(function(base64) {    ///////////generateAsync
 															var normalZip = new JSZip2();
 															var tempZip = new JSZip2(base64, { base64: true });
 															if (
