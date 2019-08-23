@@ -1163,8 +1163,7 @@ app.post('/dataForUpdateGitLab', function(req, res) {
 																.create(comhis, function(err, history) {
 																	console.log(1198);
 																	if (!err) {
-																		console.log('conn!!!', conn);
-																		console.dir(conn);
+																
 																		conn.sobject('Attachment').create({
 																			ParentId: history.id,
 																			Name: type,
@@ -1172,6 +1171,7 @@ app.post('/dataForUpdateGitLab', function(req, res) {
 																			ContentType: 'application/zip'
 																		}, function(err, uploadedAttachment) {
 																			if (!err) {
+																				console.log('uploadedAttachment', uploadedAttachment);
 																				GitHistoryArrTEst.forEach(function(
 																					objMap,
 																					index,
