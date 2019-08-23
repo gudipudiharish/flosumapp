@@ -8,6 +8,7 @@ var AdmZip = require('adm-zip');
 var parser = require('json-parser');
 var JSZip2 = require('jszip');
 var JSZip = require('./jszip');
+var JSZipOLD = require('./jszipOLD');
 var forAll = require('./forAll');
 var bitbucket = require('./bitbucket');
 var gitlab = require('./gitlab');
@@ -1052,6 +1053,7 @@ app.post('/dataForUpdateGitLab', function(req, res) {
 													newMap.forEach(function(value, key) {
 														let GitHistoryArrTEst = [];
 														let zip = new JSZip();
+														let zipOld = new JSZipOLD();
 														let type;
 														let version;
 														let component;
@@ -1114,10 +1116,13 @@ app.post('/dataForUpdateGitLab', function(req, res) {
 															console.log('ZIIIIIIIIIIIIIIIIIIIIP',zip);
 															
 														});
-													
+														var tounzip = zipOld(atob(zip), {base64:true});
+														for(var filenames in tounzip.files){
+															console.log('filenames = ', filenames);
+														}
 													console.log('this is zip', zip);
 										
-														zip.generateAsync({ type: 'base64', createFolders: true }).then(function(base64) {    ///////////generateAsync
+														zip.generateAsync({ type: 'base64' }).then(function(base64) {    ///////////generateAsync
 															var normalZip = new JSZip2();
 															var tempZip = new JSZip2(base64, { base64: true });
 															if (
