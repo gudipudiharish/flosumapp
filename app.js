@@ -615,7 +615,7 @@ app.post('/dataForUpdateGitLab', function(req, res) {
                     item.flosum_git__Repository_Id__c === acc.Id ||
                     acc.Id.includes(item.flosum_git__Repository_Id__c)
                   ) {
-					  console.log('itemREPO',item);
+				//	  console.log('itemREPO',item);
                     item.Flosum__Branch_Name__c = 'master';
                   }
                 });
@@ -623,9 +623,10 @@ app.post('/dataForUpdateGitLab', function(req, res) {
               var recordsWithResp = [];
               setTimeout(function() {
 				var contents = [];
-				console.log('repoRecords.length',repoRecords.length);
-				console.log('repoRecords',repoRecords);
+				//console.log('repoRecords.length',repoRecords.length);
+				//console.log('repoRecords',repoRecords);
                 repoRecords.forEach(function(obj, index, array) {
+					console.log('obj.flosum_git__Repository_Id__c',obj.flosum_git__Repository_Id__c);
                   if(obj.flosum_git__Repository_Id__c){                    
                   let brId = obj.flosum_git__Repository_Id__c;
                   let branchName = 'master';
