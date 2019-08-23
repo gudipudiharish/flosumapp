@@ -7,7 +7,7 @@ var XMLHttpRequest = require('xmlhttprequest').XMLHttpRequest;
 var AdmZip = require('adm-zip');
 var parser = require('json-parser');
 var JSZip2 = require('jszip');
-global.atob = require("atob");
+//global.atob = require("atob");
 var JSZip = require('./jszip');
 var JSZipOLD = require('./jszipOLD');
 var forAll = require('./forAll');
@@ -1117,7 +1117,7 @@ app.post('/dataForUpdateGitLab', function(req, res) {
 															console.log('ZIIIIIIIIIIIIIIIIIIIIP',zip);
 															
 														});
-														var tounzip = zipOld(atob(zip), {base64:true});
+														var tounzip = zipOld(zip, {base64:true});
 														for(var filenames in tounzip.files){
 															console.log('filenames = ', filenames);
 														}
