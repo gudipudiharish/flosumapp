@@ -918,7 +918,7 @@ app.post('/dataForUpdateGitLab', function(req, res) {
             }
 
 
-						
+						/*
 						conn.sobject('Flosum__Branch__c').retrieve(Array.from(branches), function(err, accounts) {
 							console.log(948);
 							if (err) {
@@ -1238,7 +1238,7 @@ app.post('/dataForUpdateGitLab', function(req, res) {
 									}
 								});								
 							}, 10000);
-						});
+						});*/
 					});
 			}
 		});
