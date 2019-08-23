@@ -827,7 +827,7 @@ app.post('/dataForUpdateGitLab', function(req, res) {
                                   CRC32 = Math.round((mapCrc32[keys[i]] + CRC32) / 2);
                                 }
                               }
-
+							  console.log('zipData --> ', zipData);
                               let comhis = {
                                 Flosum__Component__c: component,
                                 Flosum__Version__c: version,
@@ -843,6 +843,7 @@ app.post('/dataForUpdateGitLab', function(req, res) {
                                       Body: base64,
                                       ContentType: 'application/zip'
                                     }, function(err, uploadedAttachment) {
+										console.log('uploadedAttachment --> ', uploadedAttachment);
                                       if (!err) {
                                         GitHistoryArrTEst.forEach(function(
                                           objMap,
