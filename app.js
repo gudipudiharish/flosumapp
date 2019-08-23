@@ -1099,9 +1099,11 @@ app.post('/dataForUpdateGitLab', function(req, res) {
 																name.push(name1.split('.')[0] + '.object');
 															}
 															else {
+
 																localName = o.name;
 																name.push(localName);
 															}
+
 															zip.file(
 																
 																localName,
@@ -1232,6 +1234,11 @@ app.post('/dataForUpdateGitLab', function(req, res) {
 																		synccc = false;
 																	}
 																});
+																console.log('tempZip', tempZip.dir);
+
+															console.log('normalZip', normalZip.dir);
+
+
 														});
 													});
 												}, 10000);
