@@ -527,13 +527,15 @@ app.post('/dataForUpdateGitLab', function(req, res) {
 				forAll
 					.getFilesForCompare(records, 0, result.totalSize, conn, instance)
 					.then(() => {
-						console.log('records.length', records);
+						console.log('records.length', records.length);
 						console.log('END');
-						throw Exception();
 					})
 					.then(() => {
 						records = records.filter(function(item) {
-							//console.log('item',item);
+							console.log('item.flosum_git__Repository_Id__c',!item.flosum_git__Repository_Id__c);
+							console.log('item.flosum_git__Repository_Id__c != null',item.flosum_git__Repository_Id__c != null);
+							console.log('item.flosum_git__Repository_Id__c',item.flosum_git__Repository_Id__c != 'null');
+							console.log('============================================================');
 							if (item.flosum_git__GitLab__c != null) {
 								if(item.flosum_git__Branch_Id__c){
 									if(!item.flosum_git__Repository_Id__c){
