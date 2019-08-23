@@ -1235,8 +1235,8 @@ app.post('/dataForUpdateGitLab', function(req, res) {
 																	}
 																});
 																console.log('tempZip', tempZip);
-																for(var fn in tempZip){
-																	console.log('tempZip.files[fn].dir', tempZip.files[fn].dir);
+																for(localName in tempZip){
+																	console.log('tempZip.files[fn].dir', tempZip.files[localName].dir);
 																}
 
 															console.log('normalZip', normalZip);
