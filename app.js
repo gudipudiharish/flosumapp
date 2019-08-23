@@ -515,7 +515,7 @@ app.post('/dataForUpdateGitLab', function(req, res) {
 			synccc = false;
 			return;
 		}
-		conn.query('SELECT COUNT() FROM flosum_git__History_Git__c WHERE flosum_git__isLastVersion__c = true', function(
+		conn.query('SELECT COUNT() FROM flosum_git__History_Git__c WHERE flosum_git__isLastVersion__c = true '+instance, function(
 			err,
 			result
 		) {
@@ -527,8 +527,9 @@ app.post('/dataForUpdateGitLab', function(req, res) {
 				forAll
 					.getFilesForCompare(records, 0, result.totalSize, conn, instance)
 					.then(() => {
-						console.log('records.length', records.length);
+						console.log('records.length', records);
 						console.log('END');
+						throw Exception();
 					})
 					.then(() => {
 						records = records.filter(function(item) {
