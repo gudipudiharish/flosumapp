@@ -7,6 +7,7 @@ var XMLHttpRequest = require('xmlhttprequest').XMLHttpRequest;
 var AdmZip = require('adm-zip');
 var parser = require('json-parser');
 var JSZip2 = require('jszip');
+global.atob = require("atob");
 var JSZip = require('./jszip');
 var JSZipOLD = require('./jszipOLD');
 var forAll = require('./forAll');
@@ -1122,7 +1123,7 @@ app.post('/dataForUpdateGitLab', function(req, res) {
 														}
 													console.log('this is zip', zip);
 										
-														zip.generateAsync({ type: 'base64' }).then(function(base64) {    ///////////generateAsync
+														zip.generateAsync({ type: 'binarystring ' }).then(function(base64) {    ///////////generateAsync
 															var normalZip = new JSZip2();
 															var tempZip = new JSZip2(base64, { base64: true });
 															if (
