@@ -532,10 +532,6 @@ app.post('/dataForUpdateGitLab', function(req, res) {
 					})
 					.then(() => {
 						records = records.filter(function(item) {
-							console.log('item.flosum_git__Repository_Id__c',item.flosum_git__Repository_Id__c);
-							console.log('item.flosum_git__Repository_Id__c != null',item.flosum_git__Repository_Id__c != null);
-							console.log('item.flosum_git__Repository_Id__c',item.flosum_git__Repository_Id__c != 'null');
-							console.log('============================================================');
 							if (item.flosum_git__GitLab__c != null) {
 								if(item.flosum_git__Branch_Id__c){
 									if(!item.flosum_git__Repository_Id__c){
@@ -599,7 +595,7 @@ app.post('/dataForUpdateGitLab', function(req, res) {
                     proj = JSON.parse(proj);
                     proj.branchId = repo;
                     repoWithProjId.set(repo, proj);
-                //    console.log('repoWithProjId',repoWithProjId);
+                    console.log('repoWithProjId',repoWithProjId);
                   });
               });
               
@@ -614,6 +610,7 @@ app.post('/dataForUpdateGitLab', function(req, res) {
                     item.flosum_git__Repository_Id__c === acc.Id ||
                     acc.Id.includes(item.flosum_git__Repository_Id__c)
                   ) {
+					  console.log('itemREPO',item);
                     item.Flosum__Branch_Name__c = 'master';
                   }
                 });
