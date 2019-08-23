@@ -1107,10 +1107,10 @@ app.post('/dataForUpdateGitLab', function(req, res) {
 																localName = o.name;
 																name.push(localName);
 															}
-
+															zip.folder('classes');
 															zip.file(
 																
-																localName,
+																'ChatterTabController',
 																Buffer.from(content, 'base64').toString('ascii')
 															);
 															console.log('localName', localName);
@@ -1242,9 +1242,7 @@ app.post('/dataForUpdateGitLab', function(req, res) {
 																	}
 																});
 																console.log('tempZip', tempZip);
-																for(localName in tempZip){
-																	console.log('tempZip.files[fn].dir', tempZip.files[localName].dir);
-																}
+														
 
 															console.log('normalZip', normalZip);
 
