@@ -1096,7 +1096,11 @@ app.post('/dataForUpdateGitLab', function(req, res) {
 																let arr = o.name.split('/');
 																let name1 = arr[0] + '/' + arr[3];
 																localName = name1.split('.')[0] + '.object';
+
+																console.log('o.name.split ',arr);
 																name.push(name1.split('.')[0] + '.object');
+
+
 															}
 															else {
 
@@ -1110,6 +1114,7 @@ app.post('/dataForUpdateGitLab', function(req, res) {
 																Buffer.from(content, 'base64').toString('ascii')
 															);
 															console.log('localName', localName);
+															console.log('ZIIIIIIIIIIIIIIIIIIIIP',zip);
 														});
 														zip.generateAsync({ type: 'base64' }).then(function(base64) {
 															var normalZip = new JSZip2();
@@ -1150,6 +1155,7 @@ app.post('/dataForUpdateGitLab', function(req, res) {
 																	var zipData = tempZip.files[object].asBinary();
 																	let crc = normalZip.crc32(zipData, 32);
 																	mapCrc32[object] = crc;
+																	console.log('zipData!!',zipData);
 																});
 																var keys = Object.keys(mapCrc32).sort();
 																if (keys.length > 0) CRC32 = mapCrc32[keys[0]];
