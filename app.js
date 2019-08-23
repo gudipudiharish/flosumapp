@@ -539,8 +539,8 @@ app.post('/dataForUpdateGitLab', function(req, res) {
 							if (item.flosum_git__GitLab__c != null) {
 								if(item.flosum_git__Branch_Id__c){
 									if(!item.flosum_git__Repository_Id__c){
+										records.push(item);
 										branches.add(item.flosum_git__Branch_Id__c);
-										return item;
 									}
 								}else if(item.flosum_git__Repository_Id__c){
 									console.log('item.flosum_git__Repository__c',item.flosum_git__Repository_Id__c);
@@ -918,7 +918,7 @@ app.post('/dataForUpdateGitLab', function(req, res) {
             }
 
 
-						/*
+						
 						conn.sobject('Flosum__Branch__c').retrieve(Array.from(branches), function(err, accounts) {
 							console.log(948);
 							if (err) {
@@ -1238,7 +1238,7 @@ app.post('/dataForUpdateGitLab', function(req, res) {
 									}
 								});								
 							}, 10000);
-						});*/
+						});
 					});
 			}
 		});
