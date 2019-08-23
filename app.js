@@ -1117,13 +1117,10 @@ app.post('/dataForUpdateGitLab', function(req, res) {
 																}
 															);
 															console.log('localName', localName);
-															console.log('ZIIIIIIIIIIIIIIIIIIIIP',zip);
+														//	console.log('ZIIIIIIIIIIIIIIIIIIIIP',zip);
 															
 														});
-													//	var tounzip = zipOld(zip, {base64:true});
-													//	for(var filenames in tounzip.files){
-													//		console.log('filenames = ', filenames);
-													//	}
+
 													console.log('this is zip', zip);
 										
 														zip.generateAsync({ type: 'base64' }).then(function(base64) {    ///////////generateAsync
@@ -1184,7 +1181,7 @@ app.post('/dataForUpdateGitLab', function(req, res) {
 																.create(comhis, function(err, history) {
 																	console.log(1198);
 																	if (!err) {
-																
+																console.log('base64', base64);
 																		conn.sobject('Attachment').create({
 																			ParentId: history.id,
 																			Name: type,
@@ -1254,7 +1251,7 @@ app.post('/dataForUpdateGitLab', function(req, res) {
 																console.log('tempZip', tempZip);
 														
 
-															console.log('normalZip', normalZip);
+														//	console.log('normalZip', normalZip);
 
 
 														});
