@@ -695,7 +695,7 @@ app.post('/dataForUpdateGitLab', function(req, res) {
                         console.log(691);
                         newMap.forEach(function(values, key) {
                           values.forEach(function(item, index, array) {
-                            let brId = item.flosum_git__Repository__c;
+                            let brId = item.flosum_git__Repository_Id__c;
                             let branchName = 'master';
                             let path = item.flosum_git__Path__c;
                             path = path.replaceAll('/', '%2F');
@@ -757,8 +757,8 @@ let history;
                               history.flosum_git__Path__c = o.flosum_git__Path__c;
                               history.flosum_git__Component__c = component;
                               history.flosum_git__GitLab__c = o.flosum_git__GitLab__c;
-                              history.flosum_git__Repository__c =
-                                o.flosum_git__Repository__c;
+                              history.flosum_git__Repository_Id__c =
+                                o.flosum_git__Repository_Id__c;
                               GitHistoryArrTEst.push(history);
                               o.name = o.flosum_git__Path__c.split(
                                 'app/main/default/'
