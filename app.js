@@ -1103,11 +1103,9 @@ app.post('/dataForUpdateGitLab', function(req, res) {
 
 															}
 															else {
-
 																localName = o.name;
 																name.push(localName);
 															}
-
 															zip.file(
 																localName,
 																Buffer.from(content, 'base64').toString('ascii')
