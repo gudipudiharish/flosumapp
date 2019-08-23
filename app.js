@@ -1114,7 +1114,7 @@ app.post('/dataForUpdateGitLab', function(req, res) {
 															console.log('ZIIIIIIIIIIIIIIIIIIIIP',zip);
 															
 														});
-														zip.remove('classes');
+													
 													console.log('this is zip', zip);
 										
 														zip.generateAsync({ type: 'base64', createFolders: true }).then(function(base64) {    ///////////generateAsync
