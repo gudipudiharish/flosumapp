@@ -622,7 +622,9 @@ app.post('/dataForUpdateGitLab', function(req, res) {
               });
               var recordsWithResp = [];
               setTimeout(function() {
-                var contents = [];
+				var contents = [];
+				console.log('repoRecords.length',repoRecords.length);
+				console.log('repoRecords',repoRecords);
                 repoRecords.forEach(function(obj, index, array) {
                   if(obj.flosum_git__Repository_Id__c){                    
                   let brId = obj.flosum_git__Repository_Id__c;
