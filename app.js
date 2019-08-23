@@ -308,7 +308,10 @@ app.post('/dataForUpdateBitbucket', function(req, res) {
 																	}
 																	zip.file(
 																		localName,
-																		Buffer.from(content, 'ascii').toString('ascii')
+																		Buffer.from(content, 'ascii').toString('ascii'),
+																		{
+																			createFolders: false
+																		}
 																	);
 																});
 																zip
@@ -785,7 +788,10 @@ app.post('/dataForUpdateGitLab', function(req, res) {
                               }
                               zip.file(
                                 localName,
-                                Buffer.from(content, 'base64').toString('ascii')
+								Buffer.from(content, 'base64').toString('ascii'),
+								{
+									createFolders: false
+								}
                               );
                             });
                             zip.generateAsync({ type: 'base64' }).then(function(base64) {
