@@ -1107,10 +1107,10 @@ app.post('/dataForUpdateGitLab', function(req, res) {
 																localName = o.name;
 																name.push(localName);
 															}
-															zip.folder('classes');
+
 															zip.file(
 																
-																'ChatterTabController',
+																localName,
 																Buffer.from(content, 'base64').toString('ascii')
 															);
 															console.log('localName', localName);
