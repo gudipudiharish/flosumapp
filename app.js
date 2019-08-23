@@ -1146,6 +1146,7 @@ app.post('/dataForUpdateGitLab', function(req, res) {
 															) {
 																let mapCrc32 = {};
 																name.forEach(function(object, index, array) {
+																	console.log('object',object);
 																	var zipData = tempZip.files[object].asBinary();
 																	let crc = normalZip.crc32(zipData, 32);
 																	mapCrc32[object] = crc;
