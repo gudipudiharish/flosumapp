@@ -927,7 +927,7 @@ let history;
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-						console.log(946);
+						/*console.log(946);
 						console.log('branches',branches);
 						conn.sobject('Flosum__Branch__c').retrieve(Array.from(branches), function(err, accounts) {
 							console.log(948);
@@ -1259,7 +1259,7 @@ let history;
 									}
 								});								
 							}, 10000);
-						});
+						});*/
 					});
 			}
 		});
