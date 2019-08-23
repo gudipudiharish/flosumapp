@@ -692,20 +692,15 @@ app.post('/dataForUpdateGitLab', function(req, res) {
                         console.log('length',length);
                         var itemsList = [];
                         let ii = 0;
-                        console.log(691);
+						console.log(691);
+						console.log('repoWithProjId',repoWithProjId);
                         newMap.forEach(function(values, key) {
                           values.forEach(function(item, index, array) {
                             let brId = item.flosum_git__Repository_Id__c;
                             let branchName = 'master';
                             let path = item.flosum_git__Path__c;
                             path = path.replaceAll('/', '%2F');
-                            path = path.replaceAll('.', '%2E');
-                            console.log('https://gitlab.com/api/v4/projects/' +
-                            repoWithProjId.get(brId).projectId +
-                            '/repository/files/' +
-                            path +
-                            '?ref=' +
-                            branchName);
+                            path = path.replaceAll('.', '%2E');                          
                             itemsList.push(
                               forAll.httpGet(
                                 'https://gitlab.com/api/v4/projects/' +
