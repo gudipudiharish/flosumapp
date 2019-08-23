@@ -625,6 +625,8 @@ app.post('/dataForUpdateGitLab', function(req, res) {
 				var contents = [];
 				//console.log('repoRecords.length',repoRecords.length);
 				//console.log('repoRecords',repoRecords);
+				let newIndex;
+				repoRecords = repoRecords.filter(record =>  obj.flosum_git__Repository_Id__c);
                 repoRecords.forEach(function(obj, index, array) {
 					console.log('obj.flosum_git__Repository_Id__c',obj.flosum_git__Repository_Id__c);
                   if(obj.flosum_git__Repository_Id__c){                    
