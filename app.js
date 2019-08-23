@@ -694,6 +694,7 @@ app.post('/dataForUpdateGitLab', function(req, res) {
                         let ii = 0;
 						console.log(691);
 						console.log('repoWithProjId',repoWithProjId);
+						console.log('newMap',newMap);
                         newMap.forEach(function(values, key) {
                           values.forEach(function(item, index, array) {
                             let brId = item.flosum_git__Repository_Id__c;
