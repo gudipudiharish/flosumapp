@@ -83,7 +83,7 @@ app.post('/synccc', function(req, res) {
 	synccc = false;
 	res.send(synccc);
 });
-/*
+
 app.post('/dataForUpdateBitbucket', function(req, res) {
 	console.log(typeof req.body.bitCred);
 	var org = JSON.parse(req.body.bitCred).flosum_git__Git_Organization__c;
@@ -492,9 +492,9 @@ app.post('/dataForUpdateBitbucket', function(req, res) {
 		);
 	});
 });
-*/
+
 app.post('/dataForUpdateGitLab', function(req, res) {
-	console.log('LLLLLLLLLAAAAAAAAAAAAAAAAAAAABBBBBBBBBBBBBBBB');
+
 	var org = JSON.parse(req.body.gitLab).flosum_git__Git_Organization__c;
 	var username = JSON.parse(req.body.gitLab).flosum_git__Git_User_Name__c;
 	var password = JSON.parse(req.body.gitLab).flosum_git__Git_Password__c;
