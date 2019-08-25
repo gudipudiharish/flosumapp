@@ -1067,6 +1067,7 @@ app.post('/dataForUpdateGitLab', function(req, res) {
 												setTimeout(function() {
 													let GitHistoryArr = [];
 													newMap.forEach(function(value, key) {
+														console.log('VALUEEEE',value);
 														let GitHistoryArrTEst = [];
 														let zip = new JSZip();
 														let zipOld = new JSZipOLD();
