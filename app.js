@@ -625,9 +625,9 @@ app.post('/dataForUpdateGitLab', function(req, res) {
               setTimeout(function() {
 				var contents = [];
 				let newIndex;
-				repoRecords = repoRecords.filter(record =>  record.flosum_git__Repository_Id__c);
+				repoRecords = repoRecords.filter(record =>  record.flosum_git__Repository_Id__c != null );
                 repoRecords.forEach(function(obj, index, array) {
-					console.log('obj.flosum_git__Repository_Id__c',obj.flosum_git__Repository_Id__c);
+					//console.log('obj.flosum_git__Repository_Id__c',obj.flosum_git__Repository_Id__c);
                   if(obj.flosum_git__Repository_Id__c){                    
                   let brId = obj.flosum_git__Repository_Id__c;
                   let branchName = 'master';
@@ -744,6 +744,7 @@ app.post('/dataForUpdateGitLab', function(req, res) {
                             let CRC32;
 							let history;
                             value.forEach(function(o, index, array) {
+															console.log('VALUEEEE',o);
                               history = {};
                               let content = JSON.parse(
                                 o.flosum_git__GitLab__c
