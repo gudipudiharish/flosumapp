@@ -1021,6 +1021,7 @@ app.post('/dataForUpdateGitLab', function(req, res) {
 												let length = 0;
 												newMap.forEach(function(values, key) {
 													values.forEach(function(item, index, array) {
+														console.log(1111);
 														length += 1;
 													});
 												});
