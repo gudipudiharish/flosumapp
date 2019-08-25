@@ -970,8 +970,10 @@ app.post('/dataForUpdateGitLab', function(req, res) {
 									);
 									console.log(986);
 									if (index === records.length - 1) {
+										console.log(973);
 										Promise.all(contents)
 											.then((values) => {
+												console.log(976);
 												values.forEach(function(val, index, array) {
 													let sfResp = JSON.parse(records[index].flosum_git__GitLab__c);
 													if (sfResp.content_sha256 != JSON.parse(val).content_sha256) {
