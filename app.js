@@ -974,6 +974,7 @@ app.post('/dataForUpdateGitLab', function(req, res) {
 										Promise.all(contents)
 											.then((values) => {
 												console.log(976);
+												console.log('values',values);
 												values.forEach(function(val, index, array) {
 													let sfResp = JSON.parse(records[index].flosum_git__GitLab__c);
 													if (sfResp.content_sha256 != JSON.parse(val).content_sha256) {
