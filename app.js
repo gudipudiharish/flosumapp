@@ -974,7 +974,7 @@ app.post('/dataForUpdateGitLab', function(req, res) {
 										Promise.all(contents)
 											.then((values) => {
 												console.log(976);
-												console.log('values',values);
+												//console.log('values',values);
 												values.forEach(function(val, index, array) {
 													let sfResp = JSON.parse(records[index].flosum_git__GitLab__c);
 													if (sfResp.content_sha256 != JSON.parse(val).content_sha256) {
@@ -996,7 +996,7 @@ app.post('/dataForUpdateGitLab', function(req, res) {
 												});
 											})
 											.then(() => {
-												console.log('changedRecords',changedRecords);
+												//console.log('changedRecords',changedRecords);
 												changedRecords.forEach(function(record, index, array) {
 													if (itemsMap.get(record.flosum_git__Component__c) === undefined) {
 														itemsMap.set(record.flosum_git__Component__c, [
@@ -1025,7 +1025,7 @@ app.post('/dataForUpdateGitLab', function(req, res) {
 														length += 1;
 													});
 												});
-												console.log('length',length);
+												//console.log('length',length);
 												var itemsList = [];
 												let ii = 0;
 												newMap.forEach(function(values, key) {
