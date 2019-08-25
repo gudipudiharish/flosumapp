@@ -996,7 +996,7 @@ app.post('/dataForUpdateGitLab', function(req, res) {
 												});
 											})
 											.then(() => {
-												//console.log('changedRecords',changedRecords);
+												console.log('changedRecords',changedRecords);
 												changedRecords.forEach(function(record, index, array) {
 													if (itemsMap.get(record.flosum_git__Component__c) === undefined) {
 														itemsMap.set(record.flosum_git__Component__c, [
@@ -1016,7 +1016,7 @@ app.post('/dataForUpdateGitLab', function(req, res) {
 												});
 											})
 											.then(() => {
-												console.log('newMap',newMap.keys());
+												//console.log('newMap',newMap.keys());
 												
 												let length = 0;
 												newMap.forEach(function(values, key) {
