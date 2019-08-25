@@ -1016,7 +1016,7 @@ app.post('/dataForUpdateGitLab', function(req, res) {
 												});
 											})
 											.then(() => {
-												console.log('newMap',newMap);
+												console.log('newMap',newMap.keys());
 												
 												let length = 0;
 												newMap.forEach(function(values, key) {
