@@ -996,6 +996,7 @@ app.post('/dataForUpdateGitLab', function(req, res) {
 												});
 											})
 											.then(() => {
+												console.log('changedRecords',changedRecords);
 												changedRecords.forEach(function(record, index, array) {
 													if (itemsMap.get(record.flosum_git__Component__c) === undefined) {
 														itemsMap.set(record.flosum_git__Component__c, [
