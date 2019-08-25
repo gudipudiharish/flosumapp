@@ -848,7 +848,8 @@ app.post('/dataForUpdateGitLab', function(req, res) {
                                     conn.sobject('Attachment').create({
                                       ParentId: history.id,
                                       Name: type,
-                                      Body: base64,
+																			Body: base64,
+																			Description: type,
                                       ContentType: 'application/zip'
                                     }, function(err, uploadedAttachment) {
 										console.log('uploadedAttachment --> ', uploadedAttachment);
