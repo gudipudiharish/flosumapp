@@ -67,7 +67,7 @@ var conn = new sf.Connection({
 });
 
 setInterval(function() {
-	forAll.httpGet('https://' + process.env.name + '.herokuapp.com', '');
+	forAll.httpGet('https://' + process.env.name + '.azurewebsites.net', '');
 }, 300000);
 
 String.prototype.replaceAll = function(search, replacement) {
@@ -76,7 +76,7 @@ String.prototype.replaceAll = function(search, replacement) {
 };
 
 app.get('/', function(req, res) {
-	res.send('refresh heroku');
+	res.send('refresh azure');
 });
 
 app.post('/synccc', function(req, res) {
