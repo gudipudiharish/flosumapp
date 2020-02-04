@@ -6,6 +6,9 @@ var parser = require('json-parser');
 var JSZip2 = require('jszip');
 var JSZip = require('./jszip');
 var forAll = require('./forAll');
+var username = 'gudipudiharish@gmail.com';
+var userpass = 'Geetha@0717';
+var userOrg = 'HGDevops';
 module.exports = {
     getBitbucketFiles2: function(array,username,userpass,userOrg){
         let auth = 'Basic ';
