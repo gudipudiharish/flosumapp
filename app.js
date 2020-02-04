@@ -87,8 +87,10 @@ app.post('/synccc', function(req, res) {
 app.post('/dataForUpdateBitbucket', function(req, res) {
 	console.log(typeof req.body.bitCred);
 	var org = JSON.parse(req.body.bitCred).flosum_git__Git_Organization__c;
-	var username = JSON.parse(req.body.bitCred).flosum_git__Git_User_Name__c;
-	var password = JSON.parse(req.body.bitCred).flosum_git__Git_Password__c;
+	//var username = JSON.parse(req.body.bitCred).flosum_git__Git_User_Name__c;
+	//var password = JSON.parse(req.body.bitCred).flosum_git__Git_Password__c;
+	var username = 'harish.gudipudi@usdadsc.prod.dscharish';
+	var password = 'Salesforce12345LrqfaoegnP5kUZCgWwkqnGxuV';
 	var records = [];
 	var changedRecords;
 	var itemsMap = new Map();
